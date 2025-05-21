@@ -1,2 +1,4 @@
 node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework
 node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework
+
+out/

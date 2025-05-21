@@ -1,3 +1,16 @@
+// General System specs, OS info
+const manufacturer = document.getElementById('mfg')
+manufacturer.innerText = 'Loading...'
+const model = document.getElementById('model')
+model.innerText = 'Loading...'
+window.system.system().then(info => {
+  manufacturer.innerText = `Manufacturer: ${info.manufacturer}`
+  model.innerText = `Model: ${info.model}`
+}).catch(err => {
+  manufacturer.innerText = `Error: ${err.message}`
+  model.innerText = `Error: ${err.message}`
+})
+
 const cpu = document.getElementById('cpu')
 cpu.innerText = 'Loading...'
 window.specs.cpu().then(info => {

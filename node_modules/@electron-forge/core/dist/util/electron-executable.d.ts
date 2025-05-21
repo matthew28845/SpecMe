@@ -1,0 +1,4 @@
+type PackageJSON = Record<string, unknown>;
+export default function locateElectronExecutable(dir: string, packageJSON: PackageJSON): Promise<string>;
+export {};
+//# sourceMappingURL=electron-executable.d.ts.map

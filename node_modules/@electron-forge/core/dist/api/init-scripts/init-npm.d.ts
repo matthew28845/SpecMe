@@ -1,0 +1,8 @@
+import { PMDetails } from '@electron-forge/core-utils';
+import { ForgeListrTask } from '@electron-forge/shared-types';
+export declare function siblingDep(name: string): string;
+export declare const deps: string[];
+export declare const devDeps: string[];
+export declare const exactDevDeps: string[];
+export declare const initNPM: <T>(pm: PMDetails, dir: string, task: ForgeListrTask<T>) => Promise<void>;
+//# sourceMappingURL=init-npm.d.ts.map
