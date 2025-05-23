@@ -49,3 +49,33 @@ window.system.os().then(info => {
 }).catch(err => {
   os.innerText = `Error: ${err.message}`
 })
+
+// CPU tab
+const cpumanufacturer = document.getElementById('cpumanufacturer')
+const cpumodel = document.getElementById('cpumodel')
+const cpusocket = document.getElementById('cpusocket')
+const cpuclock = document.getElementById('cpuclock')
+const cpucores = document.getElementById('cpucores')
+const cpucache1 = document.getElementById('cpucache1')
+const cpucache2 = document.getElementById('cpucache2')
+const cpucache3 = document.getElementById('cpucache3')
+const cpuflags = document.getElementById('cpuflags')
+window.specs.cpu().then(info => {
+  cpumanufacturer.innerText = `${info.manufacturer}`
+  cpumodel.innerText = `${info.brand}`
+  cpusocket.innerText = `${info.socket}`
+  cpuclock.innerText = `${info.speed} base, up to ${info.speedMax} GHz`
+  cpucores.innerText = `${info.physicalCores}, ${info.performanceCores} performance, ${info.efficiencyCores} efficiency`
+  cpucache1.innerText = `${info.cache.l1i/1024} KB instruction, ${info.cache.l1d/1024} KB data`
+  cpucache2.innerText = `${info.cache.l2/1024} KB`
+  cpucache3.innerText = `${info.cache.l3/1024} KB`
+}).catch(err => {
+  cpumanufacturer.innerText = `Error: ${err.message}`
+  cpumodel.innerText = `Error: ${err.message}`
+  cpusocket.innerText = `Error: ${err.message}`
+  cpuclock.innerText = `Error: ${err.message}`
+  cpucores.innerText = `Error: ${err.message}`
+  cpucache1.innerText = `Error: ${err.message}`
+  cpucache2.innerText = `Error: ${err.message}`
+  cpucache3.innerText = `Error: ${err.message}`
+})
