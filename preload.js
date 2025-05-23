@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron/renderer')
+const { contextBridge, ipcRenderer } = require('electron/renderer')
 const si = require("systeminformation");
 
 contextBridge.exposeInMainWorld('system', {
@@ -7,5 +7,12 @@ contextBridge.exposeInMainWorld('system', {
 })
 contextBridge.exposeInMainWorld('specs', {
   cpu: () => si.cpu(),
-  ram: () => si.mem(),
+  ram: () => si.memLayout(),
+  disk: () => si.diskLayout(),
+  gpu: () => si.graphics(),
+})
+
+contextBridge.exposeInMainWorld('darkMode', {
+  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+  system: () => ipcRenderer.invoke('dark-mode:system')
 })

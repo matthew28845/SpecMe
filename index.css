@@ -1,13 +1,7 @@
- /* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-
 /* Style the buttons that are used to open the tab content */
 .tab button {
   background-color: inherit;
+  color: inherit;
   float: left;
   border: none;
   outline: none;
@@ -18,19 +12,21 @@
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #b58900;
+  color: #002b36
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #cb4b16;
+  color: #002b36
 }
 
 /* Style the tab content */
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
+  border: 0px;
   border-top: none;
 } 
 
@@ -48,4 +44,30 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+#computermodel p {
+  margin: 0;
+  display: inline;
+  font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #002b36; color: #93a1a1; }
+  .tab {
+    overflow: hidden;
+    border: 0px;
+    background-color: #073642;
+    color: #93a1a1
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #fdf6e3; color: #586e75; }
+  .tab {
+    overflow: hidden;
+    border: 0px;
+    background-color: #eee8d5;
+    color: #586e75
+  }
 }

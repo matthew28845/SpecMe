@@ -13,8 +13,6 @@
         <link rel="stylesheet" href=index.css>
     </head>
     <body>
-        <h1>Welcome to SpecMe</h1>
-        <h3>The worst PC spec viewer ever created</h3>
          <!-- Tab links -->
         <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'overviewtab')" id="defaultOpen">Overview</button>
@@ -29,10 +27,16 @@
         <!-- Tab content -->
         <div id="overviewtab" class="tabcontent">
             <h3>Overview</h3>
-            <p>Your computer is a</p><p id="mfg"></p><p id="model"></p>
+            <div id="computermodel">
+                <p id="mfg"></p>
+                <p id="model"></p>
+                <p id="version"></p>
+            </div>
             <p id="cpu">CPU info will go here</p>
-            <br>
             <p id="mem">RAM will go here</p>
+            <p id="disk">Disk info will go here</p>
+            <p id="gpu">GPU info will go here</p>
+            <p id="os">OS info will go here</p>
         </div>
         <div id="cputab" class="tabcontent">
             <h3>Processors</h3>
@@ -47,7 +51,6 @@
         <div id="disktab" class="tabcontent">
             <h3>Disks</h3>
             <p>Tokyo is the capital of Japan.</p>
-        </div> 
         <script src="./renderer.js"></script>
         <script src="./tabs.js"></script>
     </body>
