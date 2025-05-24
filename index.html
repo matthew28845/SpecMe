@@ -19,14 +19,14 @@
         <button class="tablinks" onclick="openTab(event, 'cputab')">Processors</button>
         <button class="tablinks" onclick="openTab(event, 'memtab')">Memory</button>
         <button class="tablinks" onclick="openTab(event, 'storagetab')">Storage</button>
-        <button class="tablinks" onclick="openTab(event, 'gpustab')">Graphics</button>
+        <button class="tablinks" onclick="openTab(event, 'graphicstab')">Graphics</button>
         <button class="tablinks" onclick="openTab(event, 'motherboardtab')">Motherboard</button>
         <button class="tablinks" onclick="openTab(event, 'powersupplytab')">Power</button>
         </div>
 
         <!-- Tab content -->
         <div id="overviewtab" class="tabcontent">
-            <h3>Overview</h3>
+            <h2>Overview</h2>
             <div id="computermodel">
                 <p id="mfg"></p>
                 <p id="model"></p>
@@ -39,56 +39,163 @@
             <p id="os">Loading...</p>
         </div>
         <div id="cputab" class="tabcontent">
-            <h3>Processors</h3>
+            <h2>Processors</h2>
             <table>
                 <tr>
                     <th>Manufacturer</th>
-                    <th id="cpumanufacturer">Loading...</th>
+                    <td id="cpumanufacturer">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Model</td>
+                    <th scope="row">Model</th>
                     <td id="cpumodel">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Socket</td>
+                    <th scope="row">Socket</th>
                     <td id="cpusocket">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Clock Speed</td>
+                    <th scope="row">Clock Speed</th>
                     <td id="cpuclock">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Cores</td>
+                    <th scope="row">Cores</th>
                     <td id="cpucores">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Level 1 Cache</td>
+                    <th scope="row">Level 1 Cache</th>
                     <td id="cpucache1">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Level 2 Cache</td>
+                    <th scope="row">Level 2 Cache</th>
                     <td id="cpucache2">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Level 3 Cache</td>
+                    <th scope="row">Level 3 Cache</th>
                     <td id="cpucache3">Loading...</td>
                 </tr>
                 <tr>
-                    <td>Flags</td>
+                    <th scope="row">Flags</th>
                     <td id="cpuflags">Loading...</td>
                 </tr>
                 </table>
         </div>
 
         <div id="memtab" class="tabcontent">
-            <h3>Memory</h3>
-            <p>Paris is the capital of France.</p>
+            <h2>Memory</h2>
+            <table>
+                <tr>
+                    <th>Total Size</th>
+                    <td id="memsize">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td id="memtype">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Clock Speed</th>
+                    <td id="memclock">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Manufacturer</th>
+                    <td id="memmfg">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Form Factor</th>
+                    <td id="memformfactor">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Part Number</th>
+                    <td id="mempart">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Serial Number</th>
+                    <td id="memserial">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Minimum Voltage</th>
+                    <td id="memvmin">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Maximum Voltage</th>
+                    <td id="memvmax">Loading...</td>
+                </tr>
+                </table>
         </div>
 
         <div id="storagetab" class="tabcontent">
-            <h3>Storage</h3>
-            <p>Tokyo is the capital of Japan.</p>
+            <h2>Storage</h2>
+            <table>
+                <tr>
+                    <th>Vendor</th>
+                    <td id="diskvendor">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Model</th>
+                    <td id="diskmodel">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Size</th>
+                    <td id="disksize">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td id="disktype">Loading...</td>
+                </tr>                
+                <tr>
+                    <th scope="row">Interface</th>
+                    <td id="diskinterface">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Serial Number</th>
+                    <td id="diskserial">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">SMART Status</th>
+                    <td id="disksmart">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Temperature</th>
+                    <td id="disktemp">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Sectors/Bytes Per Sector</th>
+                    <td id="disksectors">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cylinders/Heads/Tracks</th>
+                    <td id="diskcht">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Firmware Version</th>
+                    <td id="diskfirmware">Loading...</td>
+                </tr>
+                </table>
         </div>
+        <div id="graphicstab" class="tabcontent">
+            <h2>Graphics Processors</h2>
+            <table>
+                <tr>
+                    <th>Vendor</th>
+                    <td id="gpuvendor">Loading...</td>
+                </tr>
+                <tr>    
+                    <th scope="row">Model</th>
+                    <td id="gpumodel">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">VRAM</th>
+                    <td id="gpuvram">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cores</th>
+                    <td id="gpucores">Loading...</td>
+                </tr>                
+                <tr>
+                    <th scope="row">Interface</th>
+                    <td id="gpubus">Loading...</td>
+                </tr>
+                </table>
+        </div>        
         <script src="./renderer.js"></script>
         <script src="./tabs.js"></script>
     </body>

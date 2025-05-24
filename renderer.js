@@ -65,7 +65,7 @@ window.specs.cpu().then(info => {
   cpumodel.innerText = `${info.brand}`
   cpusocket.innerText = `${info.socket}`
   cpuclock.innerText = `${info.speed} base, up to ${info.speedMax} GHz`
-  cpucores.innerText = `${info.physicalCores}, ${info.performanceCores} performance, ${info.efficiencyCores} efficiency`
+  cpucores.innerText = `${info.processors} processor(s), ${info.physicalCores} cores, ${info.performanceCores} performance, ${info.efficiencyCores} efficiency`
   cpucache1.innerText = `${info.cache.l1i/1024} KB instruction, ${info.cache.l1d/1024} KB data`
   cpucache2.innerText = `${info.cache.l2/1024} KB`
   cpucache3.innerText = `${info.cache.l3/1024} KB`
@@ -78,4 +78,98 @@ window.specs.cpu().then(info => {
   cpucache1.innerText = `Error: ${err.message}`
   cpucache2.innerText = `Error: ${err.message}`
   cpucache3.innerText = `Error: ${err.message}`
+})
+
+// Memory tab
+const memsize = document.getElementById('memsize')
+const memtype = document.getElementById('memtype')
+const memclock = document.getElementById('memclock')
+const memmfg = document.getElementById('memmfg')
+const memformfactor = document.getElementById('memformfactor')
+const mempart = document.getElementById('mempart')
+const memserial = document.getElementById('memserial')
+const memvmin = document.getElementById('memvmin')
+const memvmax = document.getElementById('memvmax')
+window.specs.ram().then(info => {
+  memsize.innerText = `${info[0].size/1073741824} GB`
+  memtype.innerText = `${info[0].type}`
+  memclock.innerText = `${info[0].clockSpeed} MHz`
+  memmfg.innerText = `${info[0].manufacturer}`
+  memformfactor.innerText = `${info[0].formFactor}`
+  mempart.innerText = `${info[0].partNumber}`
+  memserial.innerText = `${info[0].serialNumber}`
+  memvmin.innerText = `${info[0].voltageMin} V`
+  memvmax.innerText = `${info[0].voltageMax} V`
+}).catch(err => {
+  memsize.innerText = `Error: ${err.message}`
+  memtype.innerText = `Error: ${err.message}`
+  memclock.innerText = `Error: ${err.message}`
+  memmfg.innerText = `Error: ${err.message}`
+  memformfactor.innerText = `Error: ${err.message}`
+  mempart.innerText = `Error: ${err.message}`
+  memserial.innerText = `Error: ${err.message}`
+  memvmin.innerText = `Error: ${err.message}`
+  memvmax.innerText = `Error: ${err.message}`
+})
+
+// Disk tab
+const diskvendor = document.getElementById('diskvendor')
+const diskmodel = document.getElementById('diskmodel')
+const disksize = document.getElementById('disksize')
+const disktype = document.getElementById('disktype')
+const diskinterface = document.getElementById('diskinterface')
+const diskserial = document.getElementById('diskserial')
+const disksmart = document.getElementById('disksmart')
+const disktemp = document.getElementById('disktemp')
+const disksectors = document.getElementById('disksectors')
+const diskcht = document.getElementById('diskcht')
+const diskfirmware = document.getElementById('diskfirmware')
+window.specs.disk().then(info => {
+  diskvendor.innerText = `${info[0].vendor}`
+  diskmodel.innerText = `${info[0].name}`
+  disksize.innerText = `${Math.floor(info[0].size/1073741824)} GB`
+  disktype.innerText = `${info[0].type}`
+  diskinterface.innerText = `${info[0].interfaceType}`
+  diskserial.innerText = `${info[0].serialNum}`
+  disksmart.innerText = `${info[0].smartStatus}`
+  disktemp.innerText = `${info[0].temperature} °C`
+  disksectors.innerText = `${info[0].sectors}`
+  diskcht.innerText = `${info[0].channelType}`
+  diskfirmware.innerText = `${info[0].firmwareRevision}`
+}).catch(err => {
+  diskvendor.innerText = `Error: ${err.message}`
+  diskmodel.innerText = `Error: ${err.message}`
+  disksize.innerText = `Error: ${err.message}`
+  disktype.innerText = `Error: ${err.message}`
+  diskinterface.innerText = `Error: ${err.message}`
+  diskserial.innerText = `Error: ${err.message}`
+  disksmart.innerText = `Error: ${err.message}`
+  disktemp.innerText = `Error: ${err.message}`
+  disksectors.innerText = `Error: ${err.message}`
+  diskcht.innerText = `Error: ${err.message}`
+  diskfirmware.innerText = `Error: ${err.message}`
+})
+
+// GPU tab
+const gpuvendor = document.getElementById('gpuvendor')
+const gpumodel = document.getElementById('gpumodel')
+const gpuvram = document.getElementById('gpuvram')
+const gpucores = document.getElementById('gpucores')
+const gpubus = document.getElementById('gpubus')
+window.specs.gpu().then(info => {
+  gpuvendor.innerText = `${info.controllers[0].vendor}`
+  gpumodel.innerText = `${info.controllers[0].model}`
+  gpuvram.innerText = `${Math.floor(info.controllers[0].vram/1073741824)} GB`
+  if (info.controllers[0].vramDynamic != 'true') {
+    gpuvram.innerText = `Dynamic VRAM`
+  }
+  gpucores.innerText = `${info.controllers[0].gpuCores} cores`
+  gpubus.innerText = `${info.controllers[0].bus}`
+}
+).catch(err => {
+  gpuvendor.innerText = `Error: ${err.message}`
+  gpumodel.innerText = `Error: ${err.message}`
+  gpuvram.innerText = `Error: ${err.message}`
+  gpucores.innerText = `Error: ${err.message}`
+  gpubus.innerText = `Error: ${err.message}`
 })

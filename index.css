@@ -21,7 +21,7 @@
   background-image: linear-gradient(#b58900, #cb4b16);
   color: #fdf6e3;
   border-top-style: solid;
-  border-top-width: 5px;
+  border-top-width: 4px;
   padding: 12px 16px;
 }
 
@@ -74,4 +74,16 @@ body {
     background-color: #eee8d5;
     color: #586e75
   }
+}
+
+table, th, td {
+  border: 1px solid;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th {
+  font-size:large;
 }
