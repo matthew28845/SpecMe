@@ -1,7 +1,7 @@
 {
   "name": "SpecMe",
-  "version": "1.0.0",
-  "description": "System info viewer",
+  "version": "1.0.1",
+  "description": "System specification viewer",
   "main": "index.js",
   "scripts": {
     "start": "electron-forge start",

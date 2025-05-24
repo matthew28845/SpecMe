@@ -8,6 +8,8 @@
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  font-family: hermit-bold;
+  src: url(font/Hermit-Bold.otf) format('opentype');
 }
 
 /* Change background color of buttons on hover */
@@ -19,6 +21,8 @@
 .tab {
   position: sticky;
   top: 0;
+  font-family: hermit-bold;
+  src: url(font/Hermit-Bold.otf) format('opentype');
 }
 /* Create an active/current tablink class */
 .tab button.active {
@@ -49,7 +53,8 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: hermit;
+    src: url(font/Hermit-Regular.otf) format('opentype');
     margin: 0;
     padding: 0;
 }
