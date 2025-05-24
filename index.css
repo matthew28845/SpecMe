@@ -16,6 +16,10 @@
   color: #002b36
 }
 
+.tab {
+  position: sticky;
+  top: 0;
+}
 /* Create an active/current tablink class */
 .tab button.active {
   background-image: linear-gradient(#b58900, #cb4b16);

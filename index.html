@@ -20,8 +20,8 @@
         <button class="tablinks" onclick="openTab(event, 'memtab')">Memory</button>
         <button class="tablinks" onclick="openTab(event, 'storagetab')">Storage</button>
         <button class="tablinks" onclick="openTab(event, 'graphicstab')">Graphics</button>
-        <button class="tablinks" onclick="openTab(event, 'motherboardtab')">Motherboard</button>
-        <button class="tablinks" onclick="openTab(event, 'powersupplytab')">Power</button>
+        <button class="tablinks" onclick="openTab(event, 'systemtab')">System</button>
+        <button class="tablinks" onclick="openTab(event, 'ostab')">OS</button>
         </div>
 
         <!-- Tab content -->
@@ -124,52 +124,54 @@
 
         <div id="storagetab" class="tabcontent">
             <h2>Storage</h2>
-            <table>
-                <tr>
-                    <th>Vendor</th>
-                    <td id="diskvendor">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Model</th>
-                    <td id="diskmodel">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Size</th>
-                    <td id="disksize">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Type</th>
-                    <td id="disktype">Loading...</td>
-                </tr>                
-                <tr>
-                    <th scope="row">Interface</th>
-                    <td id="diskinterface">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Serial Number</th>
-                    <td id="diskserial">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">SMART Status</th>
-                    <td id="disksmart">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Temperature</th>
-                    <td id="disktemp">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Sectors/Bytes Per Sector</th>
-                    <td id="disksectors">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Cylinders/Heads/Tracks</th>
-                    <td id="diskcht">Loading...</td>
-                </tr>
-                <tr>
-                    <th scope="row">Firmware Version</th>
-                    <td id="diskfirmware">Loading...</td>
-                </tr>
+            <div id="storagetable">
+                <table>
+                    <tr>
+                        <th>Vendor</th>
+                        <td id="diskvendor">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Model</th>
+                        <td id="diskmodel">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Size</th>
+                        <td id="disksize">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type</th>
+                        <td id="disktype">Loading...</td>
+                    </tr>                
+                    <tr>
+                        <th scope="row">Interface</th>
+                        <td id="diskinterface">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Serial Number</th>
+                        <td id="diskserial">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">SMART Status</th>
+                        <td id="disksmart">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Temperature</th>
+                        <td id="disktemp">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Sectors/Bytes Per Sector</th>
+                        <td id="disksectors">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Cylinders/Heads/Tracks</th>
+                        <td id="diskcht">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Firmware Version</th>
+                        <td id="diskfirmware">Loading...</td>
+                    </tr>
                 </table>
+            </div>
         </div>
         <div id="graphicstab" class="tabcontent">
             <h2>Graphics Processors</h2>
@@ -195,7 +197,151 @@
                     <td id="gpubus">Loading...</td>
                 </tr>
                 </table>
-        </div>        
+        </div>      
+        <div id="systemtab" class="tabcontent">
+            <h2>System</h2>
+            <div id="systemtable">
+                <table>
+                    <tr>
+                        <th>Manufacturer</th>
+                        <td id="systemmfg">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Model</th>
+                        <td id="systemmodel">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Model Name</th>
+                        <td id="systemname">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Serial Number</th>
+                        <td id="systemserial">Loading...</td>
+                    </tr>                
+                    <tr>
+                        <th scope="row">UUID</th>
+                        <td id="systemuuid">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Virtual Machine</th>
+                        <td id="systemvm">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Form Factor</th>
+                        <td id="systemformfactor">Loading...</td>
+                    </tr>
+                </table>
+            </div>
+           <h2>Motherboard</h2>
+            <div id="boardtable">
+                <table>
+                    <tr>
+                        <th>Manufacturer</th>
+                        <td id="boardmfg">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Model/Version</th>
+                        <td id="boardmodel">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Serial Number</th>
+                        <td id="boardserial">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Asset Tag</th>
+                        <td id="boardasset">Loading...</td>
+                    </tr>                
+                    <tr>
+                        <th scope="row">Memory Slots</th>
+                        <td id="boardmemslots">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Maximum Memory</th>
+                        <td id="boardmaxmem">Loading...</td>
+                    </tr>
+                </table>
+           <h2>BIOS</h2>
+            <div id="biostable">
+                <table>
+                    <tr>
+                        <th>Vendor</th>
+                        <td id="biosvendor">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Version</th>
+                        <td id="biosversion">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Release Date</th>
+                        <td id="biosdate">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Revision</th>
+                        <td id="biosrev">Loading...</td>
+                    </tr>                
+                    <tr>
+                        <th scope="row">Serial Number</th>
+                        <td id="biosserial">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Language</th>
+                        <td id="bioslanguage">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Features</th>
+                        <td id="biosfeatures">Loading...</td>
+                    </tr>
+                </table>
+            </div>                
+            </div>
+        </div> 
+        <div id="ostab" class="tabcontent">
+            <h2>Operating System</h2>
+            <div id="ostable">
+                <table>
+                    <tr>
+                        <th>Platform</th>
+                        <td id="osplatform">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Distribution</th>
+                        <td id="osdistribution">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Release/Codename</th>
+                        <td id="osrelease">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Build Number</th>
+                        <td id="osbuild">Loading...</td>
+                    </tr>                
+                    <tr>
+                        <th scope="row">Kernel</th>
+                        <td id="oskernel">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Architecture</th>
+                        <td id="osarch">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Serial</th>
+                        <td id="osserial">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Hostname</th>
+                        <td id="oshostname">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">FQDN</th>
+                        <td id="osfqdn">Loading...</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">UEFI</th>
+                        <td id="osuefi">Loading...</td>
+                    </tr>
+                </table>
+            </div>
+        </div>         
         <script src="./renderer.js"></script>
         <script src="./tabs.js"></script>
     </body>

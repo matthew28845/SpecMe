@@ -69,6 +69,7 @@ window.specs.cpu().then(info => {
   cpucache1.innerText = `${info.cache.l1i/1024} KB instruction, ${info.cache.l1d/1024} KB data`
   cpucache2.innerText = `${info.cache.l2/1024} KB`
   cpucache3.innerText = `${info.cache.l3/1024} KB`
+  cpuflags.innerText = `${info.flags}`
 }).catch(err => {
   cpumanufacturer.innerText = `Error: ${err.message}`
   cpumodel.innerText = `Error: ${err.message}`
@@ -78,6 +79,7 @@ window.specs.cpu().then(info => {
   cpucache1.innerText = `Error: ${err.message}`
   cpucache2.innerText = `Error: ${err.message}`
   cpucache3.innerText = `Error: ${err.message}`
+  cpuflags.innerText = `Error: ${err.message}`
 })
 
 // Memory tab
@@ -125,6 +127,9 @@ const disksectors = document.getElementById('disksectors')
 const diskcht = document.getElementById('diskcht')
 const diskfirmware = document.getElementById('diskfirmware')
 window.specs.disk().then(info => {
+  for (let i = 0; i < info.length; i++) {
+    console.log(info[i]);
+  } 
   diskvendor.innerText = `${info[0].vendor}`
   diskmodel.innerText = `${info[0].name}`
   disksize.innerText = `${Math.floor(info[0].size/1073741824)} GB`
@@ -172,4 +177,111 @@ window.specs.gpu().then(info => {
   gpuvram.innerText = `Error: ${err.message}`
   gpucores.innerText = `Error: ${err.message}`
   gpubus.innerText = `Error: ${err.message}`
+})
+
+//System tab
+const systemmfg = document.getElementById('systemmfg')
+const systemmodel = document.getElementById('systemmodel')
+const systemname = document.getElementById('systemname')
+const systemserial = document.getElementById('systemserial')
+const systemuuid = document.getElementById('systemuuid')
+const systemvm = document.getElementById('systemvm')
+const systemformfactor = document.getElementById('systemformfactor')
+const boardmfg = document.getElementById('boardmfg')
+const boardmodel = document.getElementById('boardmodel')
+const boardserial = document.getElementById('boardserial')
+const boardasset = document.getElementById('boardasset')
+const boardmemslots = document.getElementById('boardmemslots')
+const boardmaxmem = document.getElementById('boardmaxmem')
+const biosvendor = document.getElementById('biosvendor')
+const biosversion = document.getElementById('biosversion')
+const biosdate = document.getElementById('biosdate')
+const biosrev = document.getElementById('biosrev')
+const biosserial = document.getElementById('biosserial')
+const bioslanguage = document.getElementById('bioslanguage')
+const biosfeatures = document.getElementById('biosfeatures')
+window.system.system().then(info => {
+  systemmfg.innerText = `${info.manufacturer}`
+  systemmodel.innerText = `${info.model}`
+  systemname.innerText = `${info.version}`
+  systemserial.innerText = `${info.serial}`
+  systemuuid.innerText = `${info.uuid}`
+  systemvm.innerText = `${info.virtual}` // true or false
+  systemformfactor.innerText = `${info.type}`
+}
+).catch(err => {
+  systemmfg.innerText = `Error: ${err.message}`
+  systemmodel.innerText = `Error: ${err.message}`
+  systemname.innerText = `Error: ${err.message}`
+  systemserial.innerText = `Error: ${err.message}`
+  systemuuid.innerText = `Error: ${err.message}`
+  systemvm.innerText = `Error: ${err.message}`
+  systemformfactor.innerText = `Error: ${err.message}`
+})
+window.system.baseboard().then(info => {
+  boardmfg.innerText = `${info.manufacturer}`
+  boardmodel.innerText = `${info.model}`
+  boardserial.innerText = `${info.serial}`
+  boardasset.innerText = `${info.assetTag}`
+  boardmemslots.innerText = `${info.memSlots}`
+  boardmaxmem.innerText = `${Math.floor(info.memMax/1073741824)} GB`
+}).catch(err => {
+  boardmfg.innerText = `Error: ${err.message}`
+  boardmodel.innerText = `Error: ${err.message}`
+  boardserial.innerText = `Error: ${err.message}`
+  boardasset.innerText = `Error: ${err.message}`
+  boardmemslots.innerText = `Error: ${err.message}`
+  boardmaxmem.innerText = `Error: ${err.message}`
+})
+window.system.bios().then(info => {
+  biosvendor.innerText = `${info.vendor}`
+  biosversion.innerText = `${info.version}`
+  biosdate.innerText = `${info.releaseDate}`
+  biosrev.innerText = `${info.revision}`
+  biosserial.innerText = `${info.serial}`
+  bioslanguage.innerText = `${info.language}`
+  biosfeatures.innerText = `${info.features}`
+}).catch(err => {
+  biosvendor.innerText = `Error: ${err.message}`
+  biosversion.innerText = `Error: ${err.message}`
+  biosdate.innerText = `Error: ${err.message}`
+  biosrev.innerText = `Error: ${err.message}`
+  biosserial.innerText = `Error: ${err.message}`
+  bioslanguage.innerText = `Error: ${err.message}`
+  biosfeatures.innerText = `Error: ${err.message}`
+})
+
+//OS tab
+const osplatform = document.getElementById('osplatform')
+const osdistribution = document.getElementById('osdistribution')
+const osrelease = document.getElementById('osrelease')
+const osbuild = document.getElementById('osbuild')
+const oskernel = document.getElementById('oskernel')
+const osarch = document.getElementById('osarch')
+const osserial = document.getElementById('osserial')
+const oshostname = document.getElementById('oshostname')
+const osfqdn = document.getElementById('osfqdn')
+const osuefi = document.getElementById('osuefi')
+window.system.os().then(info => {
+  osplatform.innerText = `${info.platform}`
+  osdistribution.innerText = `${info.distro}`
+  osrelease.innerText = `${info.release}`
+  osbuild.innerText = `${info.build}`
+  oskernel.innerText = `${info.kernel}`
+  osarch.innerText = `${info.arch}`
+  osserial.innerText = `${info.serial}`
+  oshostname.innerText = `${info.hostname}`
+  osfqdn.innerText = `${info.fqdn}`
+  osuefi.innerText = `${info.uefi}` // true or false
+}).catch(err => {
+  osplatform.innerText = `Error: ${err.message}`
+  osdistribution.innerText = `Error: ${err.message}`
+  osrelease.innerText = `Error: ${err.message}`
+  osbuild.innerText = `Error: ${err.message}`
+  oskernel.innerText = `Error: ${err.message}`
+  osarch.innerText = `Error: ${err.message}`
+  osserial.innerText = `Error: ${err.message}`
+  oshostname.innerText = `Error: ${err.message}`
+  osfqdn.innerText = `Error: ${err.message}`
+  osuefi.innerText = `Error: ${err.message}`
 })
