@@ -123,6 +123,15 @@ const template = [
         }
       }
     ]
+  },
+  {
+    label: 'Refresh Info',
+    click: async () => {
+      const win = BrowserWindow.getFocusedWindow()
+      if (win) {
+        win.reload()
+      }
+    }
   }
 ]
 
