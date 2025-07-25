@@ -40,7 +40,7 @@
         </div>
         <div id="cputab" class="tabcontent">
             <h2>Processors</h2>
-            <table>
+            <table id="cputable">
                 <tr>
                     <th>Manufacturer</th>
                     <td id="cpumanufacturer">Loading...</td>
@@ -82,7 +82,7 @@
 
         <div id="memtab" class="tabcontent">
             <h2>Memory</h2>
-            <table>
+            <table id="memtable">
                 <tr>
                     <th>Total Size</th>
                     <td id="memsize">Loading...</td>
@@ -124,79 +124,80 @@
 
         <div id="storagetab" class="tabcontent">
             <h2>Storage</h2>
-            <div id="storagetable">
-                <table>
-                    <tr>
-                        <th>Vendor</th>
-                        <td id="diskvendor">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Model</th>
-                        <td id="diskmodel">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Size</th>
-                        <td id="disksize">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Type</th>
-                        <td id="disktype">Loading...</td>
-                    </tr>                
-                    <tr>
-                        <th scope="row">Interface</th>
-                        <td id="diskinterface">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Serial Number</th>
-                        <td id="diskserial">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">SMART Status</th>
-                        <td id="disksmart">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Temperature</th>
-                        <td id="disktemp">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Sectors/Bytes Per Sector</th>
-                        <td id="disksectors">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Cylinders/Heads/Tracks</th>
-                        <td id="diskcht">Loading...</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Firmware Version</th>
-                        <td id="diskfirmware">Loading...</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div id="graphicstab" class="tabcontent">
-            <h2>Graphics Processors</h2>
-            <table>
+            <table id="disktable">
                 <tr>
                     <th>Vendor</th>
-                    <td id="gpuvendor">Loading...</td>
+                    <td class="diskvendor">Loading...</td>
                 </tr>
-                <tr>    
+                <tr>
                     <th scope="row">Model</th>
-                    <td id="gpumodel">Loading...</td>
+                    <td class="diskmodel">Loading...</td>
                 </tr>
                 <tr>
-                    <th scope="row">VRAM</th>
-                    <td id="gpuvram">Loading...</td>
+                    <th scope="row">Size</th>
+                    <td class="disksize">Loading...</td>
                 </tr>
                 <tr>
-                    <th scope="row">Cores</th>
-                    <td id="gpucores">Loading...</td>
+                    <th scope="row">Type</th>
+                    <td class="disktype">Loading...</td>
                 </tr>                
                 <tr>
                     <th scope="row">Interface</th>
-                    <td id="gpubus">Loading...</td>
+                    <td class="diskinterface">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Serial Number</th>
+                    <td class="diskserial">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">SMART Status</th>
+                    <td class="disksmart">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Temperature</th>
+                    <td class="disktemp">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Sectors/Bytes Per Sector</th>
+                    <td class="disksectors">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cylinders/Heads/Tracks</th>
+                    <td class="diskcht">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Firmware Version</th>
+                    <td class="diskfirmware">Loading...</td>
+                </tr>
+            </table>
+        <p id="diskend"></p>
+        </div>
+        <div id="graphicstab" class="tabcontent">
+            <h2>Graphics Processors</h2>
+            <h3 id="gpunum">GPU 0</h3>
+            <table id="gputable">
+                <tr>
+                    <th>Vendor</th>
+                    <td class="gpuvendor">Loading...</td>
+                </tr>
+                <tr>    
+                    <th scope="row">Model</th>
+                    <td class="gpumodel">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">VRAM</th>
+                    <td class="gpuvram">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cores</th>
+                    <td class="gpucores">Loading...</td>
+                </tr>                
+                <tr>
+                    <th scope="row">Interface</th>
+                    <td class="gpubus">Loading...</td>
                 </tr>
                 </table>
+            <p id="gpuend"></p>
         </div>      
         <div id="systemtab" class="tabcontent">
             <h2>System</h2>
@@ -234,7 +235,7 @@
             </div>
            <h2>Motherboard</h2>
             <div id="boardtable">
-                <table>
+                <table id="boardtable">
                     <tr>
                         <th>Manufacturer</th>
                         <td id="boardmfg">Loading...</td>
@@ -262,7 +263,7 @@
                 </table>
            <h2>BIOS</h2>
             <div id="biostable">
-                <table>
+                <table id="biostable">
                     <tr>
                         <th>Vendor</th>
                         <td id="biosvendor">Loading...</td>
@@ -298,7 +299,7 @@
         <div id="ostab" class="tabcontent">
             <h2>Operating System</h2>
             <div id="ostable">
-                <table>
+                <table id="ostable">
                     <tr>
                         <th>Platform</th>
                         <td id="osplatform">Loading...</td>

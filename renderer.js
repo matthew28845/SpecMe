@@ -24,7 +24,7 @@ window.specs.cpu().then(info => {
 const mem = document.getElementById('mem')
 mem.innerText = 'Loading...'
 window.specs.ram().then(info => {
-  mem.innerText = `RAM: ${info[0].size/1073741824} GB ${info[0].type}`
+  mem.innerText = `RAM: ${Math.floor(info[0].size/1073741824)} GB ${info[0].type}`
 }).catch(err => {
   mem.innerText = `Error: ${err.message}`
 })
@@ -115,35 +115,43 @@ window.specs.ram().then(info => {
 })
 
 // Disk tab
-const diskvendor = document.getElementById('diskvendor')
-const diskmodel = document.getElementById('diskmodel')
-const disksize = document.getElementById('disksize')
-const disktype = document.getElementById('disktype')
-const diskinterface = document.getElementById('diskinterface')
-const diskserial = document.getElementById('diskserial')
-const disksmart = document.getElementById('disksmart')
-const disktemp = document.getElementById('disktemp')
-const disksectors = document.getElementById('disksectors')
-const diskcht = document.getElementById('diskcht')
-const diskfirmware = document.getElementById('diskfirmware')
+const disktable = document.getElementById('disktable')
+diskiterator = 1
 window.specs.disk().then(info => {
-  for (let i = 0; i < info.length; i++) {
-    console.log(info[i]);
-  } 
-  diskvendor.innerText = `${info[0].vendor}`
-  diskmodel.innerText = `${info[0].name}`
-  disksize.innerText = `${Math.floor(info[0].size/1073741824)} GB`
-  disktype.innerText = `${info[0].type}`
-  diskinterface.innerText = `${info[0].interfaceType}`
-  diskserial.innerText = `${info[0].serialNum}`
-  disksmart.innerText = `${info[0].smartStatus}`
-  disktemp.innerText = `${info[0].temperature} °C`
-  disksectors.innerText = `${info[0].sectors}`
-  diskcht.innerText = `${info[0].channelType}`
-  diskfirmware.innerText = `${info[0].firmwareRevision}`
+  disktable.querySelector('.diskvendor').innerText = `${info[0].vendor}`
+  disktable.querySelector('.diskmodel').innerText = `${info[0].name}`
+  disktable.querySelector('.disksize').innerText = `${Math.floor(info[0].size/1073741824)} GB`
+  disktable.querySelector('.disktype').innerText = `${info[0].type}`
+  disktable.querySelector('.diskinterface').innerText = `${info[0].interfaceType}`
+  disktable.querySelector('.diskserial').innerText = `${info[0].serialNum}`
+  disktable.querySelector('.disksmart').innerText = `${info[0].smartStatus}`
+  disktable.querySelector('.disktemp').innerText = `${info[0].temperature} °C`
+  disktable.querySelector('.disksectors').innerText = `${info[0].sectors}`
+  disktable.querySelector('.diskcht').innerText = `${info[0].channelType}`
+  disktable.querySelector('.diskfirmware').innerText = `${info[0].firmwareRevision}`
+  while (info[diskiterator] !== undefined) {
+    clone = disktable.cloneNode(true)
+    clone.id = 'disktable ' + gpuiterator
+    disknumber = document.createElement('h3')
+    document.getElementById('diskend').appendChild(disknumber)
+    disknumber.innerText = `GPU ${diskiterator}`
+    document.getElementById('diskend').appendChild(clone)
+    disktable.querySelector('.diskvendor').innerText = `${info[diskiterator].vendor}`
+    disktable.querySelector('.diskmodel').innerText = `${info[diskiterator].name}`
+    disktable.querySelector('.disksize').innerText = `${Math.floor(info[diskiterator].size/1073741824)} GB`
+    disktable.querySelector('.disktype').innerText = `${info[diskiterator].type}`
+    disktable.querySelector('.diskinterface').innerText = `${info[diskiterator].interfaceType}`
+    disktable.querySelector('.diskserial').innerText = `${info[diskiterator].serialNum}`
+    disktable.querySelector('.disksmart').innerText = `${info[diskiterator].smartStatus}`
+    disktable.querySelector('.disktemp').innerText = `${info[diskiterator].temperature} °C`
+    disktable.querySelector('.disksectors').innerText = `${info[diskiterator].sectors}`
+    disktable.querySelector('.diskcht').innerText = `${info[diskiterator].channelType}`
+    disktable.querySelector('.diskfirmware').innerText = `${info[diskiterator].firmwareRevision}`
+    diskiterator++
+  }
 }).catch(err => {
-  diskvendor.innerText = `Error: ${err.message}`
-  diskmodel.innerText = `Error: ${err.message}`
+  disktable.querySelector('.diskvendor').innerText = `Error: ${err.message}`
+  disktable.querySelector('.diskmodel').innerText = `Error: ${err.message}`
   disksize.innerText = `Error: ${err.message}`
   disktype.innerText = `Error: ${err.message}`
   diskinterface.innerText = `Error: ${err.message}`
@@ -156,28 +164,42 @@ window.specs.disk().then(info => {
 })
 
 // GPU tab
-const gpuvendor = document.getElementById('gpuvendor')
-const gpumodel = document.getElementById('gpumodel')
-const gpuvram = document.getElementById('gpuvram')
-const gpucores = document.getElementById('gpucores')
-const gpubus = document.getElementById('gpubus')
+const gputable = document.getElementById('gputable')
+gpuiterator = 1
 window.specs.gpu().then(info => {
-  gpuvendor.innerText = `${info.controllers[0].vendor}`
-  gpumodel.innerText = `${info.controllers[0].model}`
-  gpuvram.innerText = `${Math.floor(info.controllers[0].vram/1073741824)} GB`
-  if (info.controllers[0].vramDynamic != 'true') {
-    gpuvram.innerText = `Dynamic VRAM`
+  gputable.querySelector('.gpuvendor').innerText = `${info.controllers[0].vendor}`
+  gputable.querySelector('.gpumodel').innerText = `${info.controllers[0].model}`
+  gputable.querySelector('.gpuvram').innerText = `${info.controllers[0].vram} MB`
+  if (info.controllers[0].vramDynamic === true) {
+    gputable.querySelector('.gpuvram').innerText = `Dynamic VRAM`
   }
-  gpucores.innerText = `${info.controllers[0].gpuCores} cores`
-  gpubus.innerText = `${info.controllers[0].bus}`
-}
-).catch(err => {
-  gpuvendor.innerText = `Error: ${err.message}`
-  gpumodel.innerText = `Error: ${err.message}`
-  gpuvram.innerText = `Error: ${err.message}`
-  gpucores.innerText = `Error: ${err.message}`
-  gpubus.innerText = `Error: ${err.message}`
+  gputable.querySelector('.gpucores').innerText = `${info.controllers[0].gpuCores} cores`
+  gputable.querySelector('.gpubus').innerText = `${info.controllers[0].bus}`
+  while (info.controllers[gpuiterator] !== undefined) {
+    clone = gputable.cloneNode(true)
+    clone.id = 'gputable ' + gpuiterator
+    gpunumber = document.createElement('h3')
+    document.getElementById('gpuend').appendChild(gpunumber)
+    gpunumber.innerText = `GPU ${gpuiterator}`
+    document.getElementById('gpuend').appendChild(clone)
+    clone.querySelector('.gpuvendor').innerText = `${info.controllers[gpuiterator].vendor}`
+    clone.querySelector('.gpumodel').innerText = `${info.controllers[gpuiterator].model}`
+    clone.querySelector('.gpuvram').innerText = `${info.controllers[gpuiterator].vram} MB`
+    if (info.controllers[gpuiterator].vramDynamic === true) {
+      clone.querySelector('.gpuvram').innerText = `Dynamic VRAM`
+    }
+    clone.querySelector('.gpucores').innerText = `${info.controllers[gpuiterator].gpuCores} cores`
+    clone.querySelector('.gpubus').innerText = `${info.controllers[gpuiterator].bus}`
+    gpuiterator++
+  }
+}).catch(err => {
+  gputable.querySelector('.gpuvendor').innerText = `Error: ${err.message}`
+  gputable.querySelector('.gpumodel').innerText = `Error: ${err.message}`
+  gputable.querySelector('.gpuvram').innerText = `Error: ${err.message}`
+  gputable.querySelector('.gpuvram').innerText = `Error: ${err.message}`
+  gputable.querySelector('.gpubus').innerText = `Error: ${err.message}`
 })
+
 
 //System tab
 const systemmfg = document.getElementById('systemmfg')

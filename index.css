@@ -8,7 +8,7 @@
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
-  font-family: hermit-bold;
+  font-family: hermit-bold, system-ui, sans-serif;
   src: url(font/Hermit-Bold.otf) format('opentype');
 }
 
@@ -21,7 +21,7 @@
 .tab {
   position: sticky;
   top: 0;
-  font-family: hermit-bold;
+  font-family: hermit-bold, system-ui, sans-serif;
   src: url(font/Hermit-Bold.otf) format('opentype');
 }
 /* Create an active/current tablink class */
@@ -53,7 +53,7 @@
 }
 
 body {
-    font-family: hermit;
+    font-family: hermit-bold, system-ui, sans-serif;
     src: url(font/Hermit-Regular.otf) format('opentype');
     margin: 0;
     padding: 0;
