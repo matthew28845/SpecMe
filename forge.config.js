@@ -18,12 +18,56 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        options: {
+          icon: 'images/logo.png',
+          categories: ['Utility'],
+          id: 'com.matthew28845.specme'
+        }
+      },
+    },/*
+    {
+      name: '@electron-forge/maker-snap',
+      config: {
+        options: {
+          icon: 'images/logo.png',
+          categories: ['Utility'],
+          id: 'com.matthew28845.specme'
+        }
+      },
+    },*/
+    {
+      name: '@electron-forge/maker-flatpak',
+      config: {
+        options: {
+          icon: 'images/logo.png',
+          categories: ['Utility'],
+          id: 'com.matthew28845.specme'
+        }
+      }
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+      config: {
+        options: {
+          icon: 'images/logo.png',
+          categories: ['Utility'],
+          id: 'com.matthew28845.specme',
+          bin: 'SpecMe',
+          name: 'SpecMe',
+          productName: 'SpecMe',
+          genericName: 'System Specification Viewer',
+          description: 'A cross-platform system specification viewer built with Electron',
+          homepage: 'https://matthewsigmond.com/posts/software/specme/',
+          license: 'ISC',
+          requires: [],
+          group: 'Applications/System',
+          compressionLevel: 9,
+          epoch: 0,
+          release: '1'
+        }
+      }
+    }
   ],
   plugins: [
     {

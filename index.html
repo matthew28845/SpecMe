@@ -9,7 +9,7 @@
         http-equiv="X-Content-Security-Policy"
         content="default-src 'self'; script-src 'self'"
         />
-        <title>SpecMe</title>
+        <title>SpecMe 1.3</title>
         <link rel="stylesheet" href=index.css>
     </head>
     <body>
@@ -26,17 +26,22 @@
 
         <!-- Tab content -->
         <div id="overviewtab" class="tabcontent">
-            <h2>Overview</h2>
+            <img src="./images/logo.png" id="mfglogo" alt="Mfg Logo" style="float: right; width: 200px; height: 200px;">
             <div id="computermodel">
-                <p id="mfg"></p>
-                <p id="model"></p>
-                <p id="version"></p>
+                <p id="mfgmain"></p>
+                <p id="modelmain"></p>
+                <p id="versionmain"></p>
             </div>
-            <p id="cpu">Loading...</p>
-            <p id="mem">Loading...</p>
-            <p id="disk">Loading...</p>
-            <p id="gpu">Loading...</p>
-            <p id="os">Loading...</p>
+            <h3>Processor</h3>
+            <p id="cpumain">Loading...</p>
+            <h3>Memory</h3>
+            <p id="memmain">Loading...</p>
+            <h3>Storage</h3>
+            <p id="diskmain">Loading...</p>
+            <h3>Graphics</h3>
+            <p id="gpumain">Loading...</p>
+            <h3>Operating System</h3>
+            <p id="osmain">Loading...</p>
         </div>
         <div id="cputab" class="tabcontent">
             <h2>Processors</h2>
@@ -174,7 +179,7 @@
         <p id="diskend"></p>
         </div>
         <div id="graphicstab" class="tabcontent">
-            <h2>Graphics Processors</h2>
+            <h2>Graphics</h2>
             <h3 id="gpunum">GPU 0</h3>
             <table id="gputable">
                 <tr>
