@@ -32,10 +32,16 @@ window.specs.cpu().then(info => {
 // Memory tab
 const memtable = document.getElementById('memtable')
 const memmain = document.getElementById('memmain')
+memiterator = 1
 memmain.innerText = 'Loading...'
 
-window.specs.ram().then(info => {
-  memmain.innerText = `${Math.floor(info[0].size/1048576)} MB ${info[0].type}`
+window.specs.mem().then(info => {
+  memmain.innerText = `${Math.floor(info.total/1048576)} MB`
+}).catch(err => {
+  memmain.innerText = `Error: ${err.message}`
+})
+window.specs.memlayout().then(info => {
+  memmain.innerText += ` ${info[0].type}`
   memtable.querySelector('.memsize').innerText = `${Math.floor(info[0].size/1048576)} MB`
   memtable.querySelector('.memtype').innerText = `${info[0].type}`
   memtable.querySelector('.memclock').innerText = `${info[0].clockSpeed} MHz`
@@ -45,6 +51,24 @@ window.specs.ram().then(info => {
   memtable.querySelector('.memserial').innerText = `${info[0].serialNumber}`
   memtable.querySelector('.memvmin').innerText = `${info[0].voltageMin} V`
   memtable.querySelector('.memvmax').innerText = `${info[0].voltageMax} V`
+  while (info[memiterator] !== undefined) {
+    clone = memtable.cloneNode(true)
+    clone.id = 'memtable ' + memiterator
+    disknumber = document.createElement('h3')
+    document.getElementById('memend').appendChild(disknumber)
+    disknumber.innerText = `Disk ${memiterator}`
+    document.getElementById('memend').appendChild(clone)
+    memtable.querySelector('.memsize').innerText = `${Math.floor(info[memiterator].size/1048576)} MB`
+    memtable.querySelector('.memtype').innerText = `${info[memiterator].type}`
+    memtable.querySelector('.memclock').innerText = `${info[memiterator].clockSpeed} MHz`
+    memtable.querySelector('.memmfg').innerText = `${info[memiterator].manufacturer}`
+    memtable.querySelector('.memformfactor').innerText = `${info[memiterator].formFactor}`
+    memtable.querySelector('.mempart').innerText = `${info[memiterator].partNumber}`
+    memtable.querySelector('.memserial').innerText = `${info[memiterator].serialNumber}`
+    memtable.querySelector('.memvmin').innerText = `${info[memiterator].voltageMin} V`
+    memtable.querySelector('.memvmax').innerText = `${info[memiterator].voltageMax} V`
+    memiterator++
+  }
 }).catch(err => {
   memmain.innerText = `Error: ${err.message}`
   memtable.querySelector('.memsize').innerText = `Error: ${err.message}`
@@ -79,7 +103,7 @@ window.specs.disk().then(info => {
   disktable.querySelector('.diskfirmware').innerText = `${info[0].firmwareRevision}`
   while (info[diskiterator] !== undefined) {
     clone = disktable.cloneNode(true)
-    clone.id = 'disktable ' + gpuiterator
+    clone.id = 'disktable ' + diskiterator
     disknumber = document.createElement('h3')
     document.getElementById('diskend').appendChild(disknumber)
     disknumber.innerText = `Disk ${diskiterator}`

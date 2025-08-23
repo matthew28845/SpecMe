@@ -12,7 +12,8 @@ contextBridge.exposeInMainWorld('system', {
 })
 contextBridge.exposeInMainWorld('specs', {
   cpu: () => si.cpu(),
-  ram: () => si.memLayout(),
+  mem: () => si.mem(),
+  memlayout: () => si.memLayout(),
   disk: () => si.diskLayout(),
   gpu: () => si.graphics(),
 })

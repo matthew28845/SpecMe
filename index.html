@@ -9,7 +9,7 @@
         http-equiv="X-Content-Security-Policy"
         content="default-src 'self'; script-src 'self'"
         />
-        <title>SpecMe 1.3</title>
+        <title>SpecMe 1.3.1</title>
         <link rel="stylesheet" href=index.css>
     </head>
     <body>
@@ -87,6 +87,7 @@
 
         <div id="memtab" class="tabcontent">
             <h2>Memory</h2>
+            <h3 id="memnum">Bank 0</h3>
             <table id="memtable">
                 <tr>
                     <th>Total Size</th>
@@ -124,7 +125,8 @@
                     <th scope="row">Maximum Voltage</th>
                     <td class="memvmax">Loading...</td>
                 </tr>
-                </table>
+            </table>
+        <p id="memend"></p>
         </div>
 
         <div id="storagetab" class="tabcontent">

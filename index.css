@@ -98,8 +98,9 @@ th {
 img[alt="Mfg Logo"] {
   width: 200px !important;
   object-fit: contain;
-  float: right;
+  float: right;/*
   border: 5px solid black;
   border-radius: 5px;
   background-color: #fdf6e3;
+  */
 }
