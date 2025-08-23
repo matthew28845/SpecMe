@@ -56,7 +56,7 @@ window.specs.memlayout().then(info => {
     clone.id = 'memtable ' + memiterator
     disknumber = document.createElement('h3')
     document.getElementById('memend').appendChild(disknumber)
-    disknumber.innerText = `Disk ${memiterator}`
+    disknumber.innerText = `Bank ${memiterator}`
     document.getElementById('memend').appendChild(clone)
     memtable.querySelector('.memsize').innerText = `${Math.floor(info[memiterator].size/1048576)} MB`
     memtable.querySelector('.memtype').innerText = `${info[memiterator].type}`
