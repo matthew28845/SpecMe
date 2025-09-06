@@ -124,7 +124,7 @@ const template = [
             await dialog.showMessageBox(win, {
               type: 'info',
               title: 'About SpecMe',
-              message: 'SpecMe is a free and open-source system specification viewer written in Electron.\nVersion: 1.3.2\nCreated by Matthew Sigmond 2025.',
+              message: 'SpecMe is a free and open-source system specification viewer written in Electron.\nVersion: 1.3.3\nCreated by Matthew Sigmond 2025.',
               buttons: ['OK']
             })
           }

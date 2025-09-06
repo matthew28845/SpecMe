@@ -7,6 +7,7 @@ cpumain.innerText = 'Loading...'
 
 window.specs.cpu().then(info => {
   cpumain.innerText = `${info.manufacturer} ${info.brand} (${info.cores} threads)`
+  cputext = cpumain.innerText
   cputable.querySelector('.cpumanufacturer').innerText = `${info.manufacturer}`
   cputable.querySelector('.cpumodel').innerText = `${info.brand}`
   cputable.querySelector('.cpusocket').innerText = `${info.socket}`
@@ -16,6 +17,8 @@ window.specs.cpu().then(info => {
   cputable.querySelector('.cpucache2').innerText = `${info.cache.l2/1024} KB`
   cputable.querySelector('.cpucache3').innerText = `${info.cache.l3/1024} KB`
   cputable.querySelector('.cpuflags').innerText = `${info.flags}`
+  refreshTemps()
+  setInterval(refreshTemps, 5000)
 }).catch(err => {
   cpumain.innerText = `Error: ${err.message}`
   cputable.querySelector('.cpumanufacturer').innerText = `Error: ${err.message}`
@@ -28,6 +31,16 @@ window.specs.cpu().then(info => {
   cputable.querySelector('.cpucache3').innerText = `Error: ${err.message}`
   cputable.querySelector('.cpuflags').innerText = `Error: ${err.message}`
 })
+
+//Refreshes CPU temp and updates the field
+function refreshTemps() {
+  window.specs.cputemp().then(info => {
+    cpumain.innerText = cputext + ` ${info.main} °C`
+  }).catch(err => {
+    cpumain.innerText = cputext + ` (Error: ${err.message})`
+  })
+}
+
 
 // Memory tab
 const memtable = document.getElementById('memtable')
