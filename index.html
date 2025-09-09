@@ -9,7 +9,7 @@
         http-equiv="X-Content-Security-Policy"
         content="default-src 'self'; script-src 'self'"
         />
-        <title>SpecMe 1.3.3</title>
+        <title>SpecMe 1.4</title>
         <link rel="stylesheet" href=index.css>
     </head>
     <body>
@@ -20,6 +20,7 @@
         <button class="tablinks" onclick="openTab(event, 'memtab')">Memory</button>
         <button class="tablinks" onclick="openTab(event, 'storagetab')">Storage</button>
         <button class="tablinks" onclick="openTab(event, 'graphicstab')">Graphics</button>
+        <button class="tablinks" onclick="openTab(event, 'displaystab')">Displays</button>
         <button class="tablinks" onclick="openTab(event, 'systemtab')">System</button>
         <button class="tablinks" onclick="openTab(event, 'ostab')">OS</button>
         </div>
@@ -40,6 +41,8 @@
             <p id="diskmain">Loading...</p>
             <h3>Graphics</h3>
             <p id="gpumain">Loading...</p>
+            <h3>Displays</h3>
+            <p id="displaymain">Loading...</p>
             <h3>Operating System</h3>
             <p id="osmain">Loading...</p>
         </div>
@@ -207,6 +210,45 @@
                 </table>
             <p id="gpuend"></p>
         </div>      
+        <div id="displaystab" class="tabcontent">
+            <h2>Displays</h2>
+            <h3 id="displaynum">Display 0</h3>
+            <table id="displaytable">
+                <tr>
+                    <th>Model</th>
+                    <td class="displaymodel">Loading...</td>
+                </tr>
+                <tr>    
+                    <th scope="row">Maximum Resolution</th>
+                    <td class="displayresmax">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Current Resolution</th>
+                    <td class="displayres">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Current Refresh Rate</th>
+                    <td class="displayfps">Loading...</td>
+                </tr>                
+                <tr>
+                    <th scope="row">Pixel Depth</th>
+                    <td class="displaydepth">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Connection</th>
+                    <td class="displayconn">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Primary Display?</th>
+                    <td class="displaymain">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Built In?</th>
+                    <td class="displaybuiltin">Loading...</td>
+                </tr>
+                </table>
+            <p id="displayend"></p>
+        </div>   
         <div id="systemtab" class="tabcontent">
             <h2>System</h2>
             <div id="systemtable">

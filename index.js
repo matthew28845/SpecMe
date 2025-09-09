@@ -124,7 +124,7 @@ const template = [
             await dialog.showMessageBox(win, {
               type: 'info',
               title: 'About SpecMe',
-              message: 'SpecMe is a free and open-source system specification viewer written in Electron.\nVersion: 1.3.3\nCreated by Matthew Sigmond 2025.',
+              message: 'SpecMe is a free and open-source system specification viewer written in Electron.\nVersion: 1.4\nCreated by Matthew Sigmond 2025.',
               buttons: ['OK']
             })
           }
@@ -153,7 +153,7 @@ const template = [
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 900,
-    height: 650,
+    height: 700,
     icon: path.join(__dirname, 'images/logo.png'),
     webPreferences: {
         preload: path.join(__dirname, 'preload.js'),

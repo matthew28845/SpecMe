@@ -185,6 +185,38 @@ window.specs.gpu().then(info => {
     ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} ${info.controllers[gpuiterator].vram} MB`
     gpuiterator++
   }
+  //Displays tab
+  displaymain = document.getElementById('displaymain')
+  displaymain.innerText = `${info.displays[0].model} ${info.displays[0].currentResX}x${info.displays[0].currentResY} @ ${info.displays[0].currentRefreshRate} Hz`
+  disptable = document.getElementById('displaytable')
+  disptable.querySelector('.displaymodel').innerText = `${info.displays[0].model}`
+  disptable.querySelector('.displayresmax').innerText = `${info.displays[0].maxResX}x${info.displays[0].maxResY}`
+  disptable.querySelector('.displayres').innerText = `${info.displays[0].currentResX}x${info.displays[0].currentResY}`
+  disptable.querySelector('.displayfps').innerText = `${info.displays[0].currentRefreshRate} Hz`
+  disptable.querySelector('.displaydepth').innerText = `${info.displays[0].pixelDepth} bit`
+  disptable.querySelector('.displayconn').innerText = `${info.displays[0].connection}`
+  disptable.querySelector('.displaymain').innerText = `${info.displays[0].main ? "Yes" : "No"}`
+  disptable.querySelector('.displaybuiltin').innerText = `${info.displays[0].builtin ? "Yes" : "No"}`
+  displayiterator = 1
+  while (info.displays[displayiterator] !== undefined) {
+    clone = disptable.cloneNode(true)
+    clone.id = 'displaytable ' + displayiterator
+    displaynumber = document.createElement('h3')
+    document.getElementById('displayend').appendChild(displaynumber)
+    displaynumber.innerText = `Display ${displayiterator}`
+    document.getElementById('displayend').appendChild(clone)
+    clone.querySelector('.displaymodel').innerText = `${info.displays[displayiterator].model}`
+    clone.querySelector('.displayresmax').innerText = `${info.displays[displayiterator].maxResX}x${info.displays[displayiterator].maxResY}`
+    clone.querySelector('.displayres').innerText = `${info.displays[displayiterator].currentResX}x${info.displays[displayiterator].currentResY}`
+    clone.querySelector('.displayfps').innerText = `${info.displays[displayiterator].currentRefreshRate} Hz`
+    clone.querySelector('.displaydepth').innerText = `${info.displays[displayiterator].pixelDepth} bit`
+    clone.querySelector('.displayconn').innerText = `${info.displays[displayiterator].connection}`
+    clone.querySelector('.displaymain').innerText = `${info.displays[displayiterator].main ? "Yes" : "No"}`
+    clone.querySelector('.displaybuiltin').innerText = `${info.displays[displayiterator].builtin ? "Yes" : "No"}`
+    displaymain.innerText += `
+    ${info.displays[displayiterator].model} ${info.displays[displayiterator].currentResX}x${info.displays[displayiterator].currentResY} @ ${info.displays[displayiterator].currentRefreshRate} Hz`
+    displayiterator++
+  }
 }).catch(err => {
   gpumain.innerText = `Error: ${err.message}`
   gputable.querySelector('.gpuvendor').innerText = `Error: ${err.message}`
@@ -217,7 +249,7 @@ window.system.system().then(info => {
   systemtable.querySelector('.systemname').innerText = `${info.version}`
   systemtable.querySelector('.systemserial').innerText = `${info.serial}`
   systemtable.querySelector('.systemuuid').innerText = `${info.uuid}`
-  systemtable.querySelector('.systemvm').innerText = `${info.virtual}` // true or false
+  systemtable.querySelector('.systemvm').innerText = `${info.virtual ? "Yes" : "No"}`
   systemtable.querySelector('.systemformfactor').innerText = `${info.type}`
   
 }
@@ -282,7 +314,7 @@ window.system.os().then(info => {
   ostable.querySelector('.osserial').innerText = `${info.serial}`
   ostable.querySelector('.oshostname').innerText = `${info.hostname}`
   ostable.querySelector('.osfqdn').innerText = `${info.fqdn}`
-  ostable.querySelector('.osuefi').innerText = `${info.uefi}` // true or false
+  ostable.querySelector('.osuefi').innerText = `${info.uefi ? "Yes" : "No"}`
 }).catch(err => {
   osmain.innerText = `Error: ${err.message}`
   ostable.querySelector('.osplatform').innerText = `Error: ${err.message}`
