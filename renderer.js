@@ -41,6 +41,15 @@ function refreshTemps() {
   })
 }
 
+//Deletes rows where systeminformation can't find a value
+function deleteRows() {
+  document.querySelectorAll('td').forEach(cell => {
+    if (cell.innerText === '' || cell.innerText.includes('undefined' ) || cell.innerText.includes('null') || cell.innerText.includes('unknown')) {
+      row = cell.parentNode
+      row.parentNode.removeChild(row)
+    }
+  })
+}
 
 // Memory tab
 const memtable = document.getElementById('memtable')
@@ -64,6 +73,7 @@ window.specs.memlayout().then(info => {
   memtable.querySelector('.memserial').innerText = `${info[0].serialNumber}`
   memtable.querySelector('.memvmin').innerText = `${info[0].voltageMin} V`
   memtable.querySelector('.memvmax').innerText = `${info[0].voltageMax} V`
+  deleteRows()
   while (info[memiterator] !== undefined) {
     clone = memtable.cloneNode(true)
     clone.id = 'memtable ' + memiterator
@@ -84,15 +94,6 @@ window.specs.memlayout().then(info => {
   }
 }).catch(err => {
   memmain.innerText = `Error: ${err.message}`
-  memtable.querySelector('.memsize').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memtype').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memclock').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memmfg').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memformfactor').innerText = `Error: ${err.message}`
-  memtable.querySelector('.mempart').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memserial').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memvmin').innerText = `Error: ${err.message}`
-  memtable.querySelector('.memvmax').innerText = `Error: ${err.message}`
 })
 
 // Disk tab
@@ -114,6 +115,7 @@ window.specs.disk().then(info => {
   disktable.querySelector('.disksectors').innerText = `${info[0].sectors}`
   disktable.querySelector('.diskcht').innerText = `${info[0].channelType}`
   disktable.querySelector('.diskfirmware').innerText = `${info[0].firmwareRevision}`
+  deleteRows()
   while (info[diskiterator] !== undefined) {
     clone = disktable.cloneNode(true)
     clone.id = 'disktable ' + diskiterator
@@ -137,17 +139,7 @@ window.specs.disk().then(info => {
     diskiterator++
   }
 }).catch(err => {
-  disktable.querySelector('.diskvendor').innerText = `Error: ${err.message}`
-  disktable.querySelector('.diskmodel').innerText = `Error: ${err.message}`
-  disktable.querySelector('.disksize').innerText = `Error: ${err.message}`
-  disktable.querySelector('.disktype').innerText = `Error: ${err.message}`
-  disktable.querySelector('.diskinterface').innerText = `Error: ${err.message}`
-  disktable.querySelector('.diskserial').innerText = `Error: ${err.message}`
-  disktable.querySelector('.disksmart').innerText = `Error: ${err.message}`
-  disktable.querySelector('.disktemp').innerText = `Error: ${err.message}`
-  disktable.querySelector('.disksectors').innerText = `Error: ${err.message}`
-  disktable.querySelector('.diskcht').innerText = `Error: ${err.message}`
-  disktable.querySelector('.diskfirmware').innerText = `Error: ${err.message}`
+  diskmain.innerText = `Error: ${err.message}`
 })
 
 // GPU tab
@@ -183,7 +175,7 @@ window.specs.gpu().then(info => {
     clone.querySelector('.gpubus').innerText = `${info.controllers[gpuiterator].bus}`
     gpumain.innerText += `
     ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} ${info.controllers[gpuiterator].vram} MB`
-    gpuiterator++
+    gpuiterator++    
   }
   //Displays tab
   displaymain = document.getElementById('displaymain')
@@ -217,13 +209,9 @@ window.specs.gpu().then(info => {
     ${info.displays[displayiterator].model} ${info.displays[displayiterator].currentResX}x${info.displays[displayiterator].currentResY} @ ${info.displays[displayiterator].currentRefreshRate} Hz`
     displayiterator++
   }
+  deleteRows()
 }).catch(err => {
   gpumain.innerText = `Error: ${err.message}`
-  gputable.querySelector('.gpuvendor').innerText = `Error: ${err.message}`
-  gputable.querySelector('.gpumodel').innerText = `Error: ${err.message}`
-  gputable.querySelector('.gpuvram').innerText = `Error: ${err.message}`
-  gputable.querySelector('.gpuvram').innerText = `Error: ${err.message}`
-  gputable.querySelector('.gpubus').innerText = `Error: ${err.message}`
 })
 
 
@@ -251,7 +239,7 @@ window.system.system().then(info => {
   systemtable.querySelector('.systemuuid').innerText = `${info.uuid}`
   systemtable.querySelector('.systemvm').innerText = `${info.virtual ? "Yes" : "No"}`
   systemtable.querySelector('.systemformfactor').innerText = `${info.type}`
-  
+  deleteRows()
 }
 ).catch(err => {
   manufacturer.innerText = `Error: ${err.message}`
@@ -272,6 +260,7 @@ window.system.baseboard().then(info => {
   boardtable.querySelector('.boardasset').innerText = `${info.assetTag}`
   boardtable.querySelector('.boardmemslots').innerText = `${info.memSlots}`
   boardtable.querySelector('.boardmaxmem').innerText = `${Math.floor(info.memMax/1073741824)} GB`
+  deleteRows()
 }).catch(err => {
   boardtable.querySelector('.boardmfg').innerText = `Error: ${err.message}`
   boardtable.querySelector('.boardmodel').innerText = `Error: ${err.message}`
@@ -288,6 +277,7 @@ window.system.bios().then(info => {
   biostable.querySelector('.biosserial').innerText = `${info.serial}`
   biostable.querySelector('.bioslanguage').innerText = `${info.language}`
   biostable.querySelector('.biosfeatures').innerText = `${info.features}`
+  deleteRows()
 }).catch(err => {
   biostable.querySelector('.biosvendor').innerText = `Error: ${err.message}`
   biostable.querySelector('.biosversion').innerText = `Error: ${err.message}`
@@ -315,16 +305,8 @@ window.system.os().then(info => {
   ostable.querySelector('.oshostname').innerText = `${info.hostname}`
   ostable.querySelector('.osfqdn').innerText = `${info.fqdn}`
   ostable.querySelector('.osuefi').innerText = `${info.uefi ? "Yes" : "No"}`
+  deleteRows()
+  
 }).catch(err => {
   osmain.innerText = `Error: ${err.message}`
-  ostable.querySelector('.osplatform').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osdistribution').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osrelease').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osbuild').innerText = `Error: ${err.message}`
-  ostable.querySelector('.oskernel').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osarch').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osserial').innerText = `Error: ${err.message}`
-  ostable.querySelector('.oshostname').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osfqdn').innerText = `Error: ${err.message}`
-  ostable.querySelector('.osuefi').innerText = `Error: ${err.message}`
 })

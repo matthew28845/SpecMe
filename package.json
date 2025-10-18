@@ -1,6 +1,6 @@
 {
   "name": "SpecMe",
-  "version": "1.4",
+  "version": "1.4.1",
   "description": "System specification viewer",
   "main": "index.js",
   "scripts": {
