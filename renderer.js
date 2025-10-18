@@ -73,7 +73,6 @@ window.specs.memlayout().then(info => {
   memtable.querySelector('.memserial').innerText = `${info[0].serialNumber}`
   memtable.querySelector('.memvmin').innerText = `${info[0].voltageMin} V`
   memtable.querySelector('.memvmax').innerText = `${info[0].voltageMax} V`
-  deleteRows()
   while (info[memiterator] !== undefined) {
     clone = memtable.cloneNode(true)
     clone.id = 'memtable ' + memiterator
@@ -92,6 +91,7 @@ window.specs.memlayout().then(info => {
     memtable.querySelector('.memvmax').innerText = `${info[memiterator].voltageMax} V`
     memiterator++
   }
+  deleteRows()
 }).catch(err => {
   memmain.innerText = `Error: ${err.message}`
 })
@@ -115,7 +115,6 @@ window.specs.disk().then(info => {
   disktable.querySelector('.disksectors').innerText = `${info[0].sectors}`
   disktable.querySelector('.diskcht').innerText = `${info[0].channelType}`
   disktable.querySelector('.diskfirmware').innerText = `${info[0].firmwareRevision}`
-  deleteRows()
   while (info[diskiterator] !== undefined) {
     clone = disktable.cloneNode(true)
     clone.id = 'disktable ' + diskiterator
@@ -138,6 +137,7 @@ window.specs.disk().then(info => {
     ${info[diskiterator].name} (${Math.floor(info[diskiterator].size/1073741824)} GB)`
     diskiterator++
   }
+  deleteRows()
 }).catch(err => {
   diskmain.innerText = `Error: ${err.message}`
 })
