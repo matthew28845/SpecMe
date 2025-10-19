@@ -170,6 +170,8 @@ const createAboutWindow = () => {
         sandbox: false
     }
   })
+  aboutWin.setMenuBarVisibility(false)
+  aboutWin.setResizable(false)
   aboutWin.loadFile('about.html')
 }
 

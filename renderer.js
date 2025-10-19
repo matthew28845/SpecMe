@@ -192,7 +192,11 @@ window.specs.gpu().then(info => {
   }
   //Displays tab
   displaymain = document.getElementById('displaymain')
-  displaymain.innerText = `${info.displays[0].model} ${info.displays[0].resolutionX}x${info.displays[0].resolutionY} @ ${info.displays[0].currentRefreshRate} Hz`
+  if (info.displays[0].resolutionX  !== null) {
+    displaymain.innerText = `${info.displays[0].model} ${info.displays[0].resolutionX}x${info.displays[0].resolutionY} @ ${info.displays[0].currentRefreshRate} Hz`
+  } else {
+    displaymain.innerText = `${info.displays[0].model} ${info.displays[0].currentResX}x${info.displays[0].currentResY} @ ${info.displays[0].currentRefreshRate} Hz`
+  }
   disptable = document.getElementById('displaytable')
   disptable.querySelector('.displaymodel').innerText = `${info.displays[0].model}`
   disptable.querySelector('.displayresmax').innerText = `${info.displays[0].resolutionX}x${info.displays[0].resolutionY}`
