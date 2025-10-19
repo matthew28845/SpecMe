@@ -1,0 +1,49 @@
+
+body {
+    font-family: system-ui, sans-serif;
+    text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #002b36; color: #93a1a1; }
+  .tab {
+    overflow: hidden;
+    border: 0px;
+    background-color: #073642;
+    color: #93a1a1
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #fdf6e3; color: #586e75; }
+  .tab {
+    overflow: hidden;
+    border: 0px;
+    background-color: #eee8d5;
+    color: #586e75
+  }
+}
+
+img {
+  width: 300px !important;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+button {
+  background-image: linear-gradient(#b58900, #cb4b16);
+  color: #fdf6e3;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-family: system-ui, sans-serif;
+}
+
+/* Change background color of buttons on hover */
+button:hover {
+  background-image: linear-gradient(#b58900, #b58900);
+  color: #002b36
+}

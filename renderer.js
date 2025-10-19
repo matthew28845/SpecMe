@@ -1,4 +1,4 @@
-//This file sets all of the fields in index.html using the preload.js function. 
+//Fills in all of the information in the HTML file, after systeminformation is called with preload.js
 
 // CPU tab
 const cputable = document.getElementById('cputable')
@@ -58,7 +58,11 @@ memiterator = 1
 memmain.innerText = 'Loading...'
 
 window.specs.mem().then(info => {
-  memmain.innerText = `${Math.floor(info.total/1048576)} MB`
+  if (info.total % 1073741824 === 0) {
+    memmain.innerText = ` ${Math.floor(info.total/1073741824)} GB`
+  } else {
+    memmain.innerText = ` ${Math.floor(info.total/1048576)} MB`
+  }
 }).catch(err => {
   memmain.innerText = `Error: ${err.message}`
 })
@@ -149,7 +153,11 @@ gpumain.innerText = 'Loading...'
 gpuiterator = 1
 
 window.specs.gpu().then(info => {
-  gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB`
+  if (info.controllers[0].vramDynamic === true) {
+    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} (Dynamic VRAM)`
+  } else {
+    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB`
+  }
   gputable.querySelector('.gpuvendor').innerText = `${info.controllers[0].vendor}`
   gputable.querySelector('.gpumodel').innerText = `${info.controllers[0].model}`
   gputable.querySelector('.gpuvram').innerText = `${info.controllers[0].vram} MB`
@@ -173,16 +181,21 @@ window.specs.gpu().then(info => {
     }
     clone.querySelector('.gpucores').innerText = `${info.controllers[gpuiterator].gpuCores} cores`
     clone.querySelector('.gpubus').innerText = `${info.controllers[gpuiterator].bus}`
+    if (info.controllers[gpuiterator].vramDynamic === true) {
+      gpumain.innerText += `
+    ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} (Dynamic VRAM)`
+    } else {
     gpumain.innerText += `
     ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} ${info.controllers[gpuiterator].vram} MB`
+    }
     gpuiterator++    
   }
   //Displays tab
   displaymain = document.getElementById('displaymain')
-  displaymain.innerText = `${info.displays[0].model} ${info.displays[0].currentResX}x${info.displays[0].currentResY} @ ${info.displays[0].currentRefreshRate} Hz`
+  displaymain.innerText = `${info.displays[0].model} ${info.displays[0].resolutionX}x${info.displays[0].resolutionY} @ ${info.displays[0].currentRefreshRate} Hz`
   disptable = document.getElementById('displaytable')
   disptable.querySelector('.displaymodel').innerText = `${info.displays[0].model}`
-  disptable.querySelector('.displayresmax').innerText = `${info.displays[0].maxResX}x${info.displays[0].maxResY}`
+  disptable.querySelector('.displayresmax').innerText = `${info.displays[0].resolutionX}x${info.displays[0].resolutionY}`
   disptable.querySelector('.displayres').innerText = `${info.displays[0].currentResX}x${info.displays[0].currentResY}`
   disptable.querySelector('.displayfps').innerText = `${info.displays[0].currentRefreshRate} Hz`
   disptable.querySelector('.displaydepth').innerText = `${info.displays[0].pixelDepth} bit`
@@ -229,7 +242,7 @@ const mfglogo = document.getElementById('mfglogo')
 
 window.system.system().then(info => {
   manufacturer.innerText = `${info.manufacturer} `
-  model.innerText = `${info.model} /`
+  model.innerText = `${info.model}`
   version.innerText = `${info.version}`
   //mfglogo.src = `./images/cpu/${(info.manufacturer)}.png` || `./images/logo.png`
   systemtable.querySelector('.systemmfg').innerText = `${info.manufacturer}`
@@ -243,15 +256,6 @@ window.system.system().then(info => {
 }
 ).catch(err => {
   manufacturer.innerText = `Error: ${err.message}`
-  model.innerText = `Error: ${err.message}`
-  version.innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemmfg').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemmodel').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemname').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemserial').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemuuid').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemvm').innerText = `Error: ${err.message}`
-  systemtable.querySelector('.systemformfactor').innerText = `Error: ${err.message}`
 })
 window.system.baseboard().then(info => {
   boardtable.querySelector('.boardmfg').innerText = `${info.manufacturer}`
@@ -262,12 +266,7 @@ window.system.baseboard().then(info => {
   boardtable.querySelector('.boardmaxmem').innerText = `${Math.floor(info.memMax/1073741824)} GB`
   deleteRows()
 }).catch(err => {
-  boardtable.querySelector('.boardmfg').innerText = `Error: ${err.message}`
-  boardtable.querySelector('.boardmodel').innerText = `Error: ${err.message}`
-  boardtable.querySelector('.boardserial').innerText = `Error: ${err.message}`
-  boardtable.querySelector('.boardasset').innerText = `Error: ${err.message}`
-  boardtable.querySelector('.boardmemslots').innerText = `Error: ${err.message}`
-  boardtable.querySelector('.boardmaxmem').innerText = `Error: ${err.message}`
+  manufacturer.innerText = `Error: ${err.message}`
 })
 window.system.bios().then(info => {
   biostable.querySelector('.biosvendor').innerText = `${info.vendor}`
@@ -279,13 +278,7 @@ window.system.bios().then(info => {
   biostable.querySelector('.biosfeatures').innerText = `${info.features}`
   deleteRows()
 }).catch(err => {
-  biostable.querySelector('.biosvendor').innerText = `Error: ${err.message}`
-  biostable.querySelector('.biosversion').innerText = `Error: ${err.message}`
-  biostable.querySelector('.biosdate').innerText = `Error: ${err.message}`
-  biostable.querySelector('.biosrev').innerText = `Error: ${err.message}`
-  biostable.querySelector('.biosserial').innerText = `Error: ${err.message}`
-  biostable.querySelector('.bioslanguage').innerText = `Error: ${err.message}`
-  biostable.querySelector('.biosfeatures').innerText = `Error: ${err.message}`
+  manufacturer.innerText = `Error: ${err.message}`
 })
 
 //OS tab

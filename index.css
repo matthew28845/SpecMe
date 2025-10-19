@@ -56,11 +56,14 @@ body {
     padding: 0;
 }
 
-#computermodel p {
+#computermodel h2 {
   margin: 0;
   display: inline;
-  font-weight: bold;
-  font-size: x-large;
+}
+#computermodel h3 {
+  margin: 0;
+  display: inline;
+  font-style: italic;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -98,9 +101,5 @@ th {
 img[alt="Mfg Logo"] {
   width: 200px !important;
   object-fit: contain;
-  float: right;/*
-  border: 5px solid black;
-  border-radius: 5px;
-  background-color: #fdf6e3;
-  */
+  float: right;
 }

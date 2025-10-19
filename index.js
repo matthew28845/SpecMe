@@ -118,16 +118,7 @@ const template = [
       {
         label: 'About SpecMe',
         click: async () => {
-          const { dialog } = require('electron')
-          const win = BrowserWindow.getFocusedWindow()
-          if (win) {
-            await dialog.showMessageBox(win, {
-              type: 'info',
-              title: 'About SpecMe',
-              message: 'SpecMe is a free and open-source system specification viewer written in Electron.\nVersion: 1.4.1\nCreated by Matthew Sigmond 2025.',
-              buttons: ['OK']
-            })
-          }
+          createAboutWindow()
         }
       },
       {
@@ -166,7 +157,20 @@ const createWindow = () => {
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
   win.loadFile('index.html')
-  win.set
+}
+
+const createAboutWindow = () => {
+  const aboutWin = new BrowserWindow({
+    width: 400,
+    height: 325,
+    icon: path.join(__dirname, 'images/logo.png'),
+    webPreferences: {
+        contextIsolation: true,
+        nodeIntegration: false,
+        sandbox: false
+    }
+  })
+  aboutWin.loadFile('about.html')
 }
 
 app.whenReady().then(() => {
