@@ -154,7 +154,7 @@ gpuiterator = 1
 
 window.specs.gpu().then(info => {
   if (info.controllers[0].vramDynamic === true) {
-    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} (Dynamic VRAM)`
+    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB (Dynamic VRAM)`
   } else {
     gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB`
   }
@@ -162,7 +162,7 @@ window.specs.gpu().then(info => {
   gputable.querySelector('.gpumodel').innerText = `${info.controllers[0].model}`
   gputable.querySelector('.gpuvram').innerText = `${info.controllers[0].vram} MB`
   if (info.controllers[0].vramDynamic === true) {
-    gputable.querySelector('.gpuvram').innerText = `Dynamic VRAM`
+    gputable.querySelector('.gpuvram').innerText += `(Dynamic VRAM)`
   }
   gputable.querySelector('.gpucores').innerText = `${info.controllers[0].gpuCores} cores`
   gputable.querySelector('.gpubus').innerText = `${info.controllers[0].bus}`
@@ -177,13 +177,13 @@ window.specs.gpu().then(info => {
     clone.querySelector('.gpumodel').innerText = `${info.controllers[gpuiterator].model}`
     clone.querySelector('.gpuvram').innerText = `${info.controllers[gpuiterator].vram} MB`
     if (info.controllers[gpuiterator].vramDynamic === true) {
-      clone.querySelector('.gpuvram').innerText = `Dynamic VRAM`
+      clone.querySelector('.gpuvram').innerText += ` (Dynamic VRAM)`
     }
     clone.querySelector('.gpucores').innerText = `${info.controllers[gpuiterator].gpuCores} cores`
     clone.querySelector('.gpubus').innerText = `${info.controllers[gpuiterator].bus}`
     if (info.controllers[gpuiterator].vramDynamic === true) {
       gpumain.innerText += `
-    ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} (Dynamic VRAM)`
+    ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} ${info.controllers[gpuiterator].vram} MB (Dynamic VRAM)`
     } else {
     gpumain.innerText += `
     ${info.controllers[gpuiterator].vendor} ${info.controllers[gpuiterator].model} ${info.controllers[gpuiterator].vram} MB`

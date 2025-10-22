@@ -25,17 +25,7 @@ module.exports = {
           id: 'com.matthew28845.specme'
         }
       },
-    },/*
-    {
-      name: '@electron-forge/maker-snap',
-      config: {
-        options: {
-          icon: 'images/logo.png',
-          categories: ['Utility'],
-          id: 'com.matthew28845.specme'
-        }
-      },
-    },*/
+    },
     {
       name: '@electron-forge/maker-flatpak',
       config: {
@@ -65,6 +55,17 @@ module.exports = {
           compressionLevel: 9,
           epoch: 0,
           release: '1'
+        }
+      }
+    },
+    {
+      name: '@electron-forge/maker-wix',
+      config: {
+        options: {
+          icon: 'images/logo.ico',
+          ui: {
+            chooseDirectory: true,
+          },
         }
       }
     }

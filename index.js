@@ -162,7 +162,7 @@ const createWindow = () => {
 const createAboutWindow = () => {
   const aboutWin = new BrowserWindow({
     width: 400,
-    height: 325,
+    height: 350,
     icon: path.join(__dirname, 'images/logo.png'),
     webPreferences: {
         contextIsolation: true,
