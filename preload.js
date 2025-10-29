@@ -16,7 +16,8 @@ contextBridge.exposeInMainWorld('specs', {
   memlayout: () => si.memLayout(),
   disk: () => si.diskLayout(),
   gpu: () => si.graphics(),
-  cputemp : () => si.cpuTemperature()
+  cputemp : () => si.cpuTemperature(),
+  battery : () => si.battery()
 })
 
 contextBridge.exposeInMainWorld('darkMode', {

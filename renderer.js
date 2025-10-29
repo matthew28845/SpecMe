@@ -17,19 +17,11 @@ window.specs.cpu().then(info => {
   cputable.querySelector('.cpucache2').innerText = `${info.cache.l2/1024} KB`
   cputable.querySelector('.cpucache3').innerText = `${info.cache.l3/1024} KB`
   cputable.querySelector('.cpuflags').innerText = `${info.flags}`
+  deleteRows()
   refreshTemps()
   setInterval(refreshTemps, 5000)
 }).catch(err => {
   cpumain.innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpumanufacturer').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpumodel').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpusocket').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpuclock').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpucores').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpucache1').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpucache2').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpucache3').innerText = `Error: ${err.message}`
-  cputable.querySelector('.cpuflags').innerText = `Error: ${err.message}`
 })
 
 //Refreshes CPU temp and updates the field
@@ -154,9 +146,16 @@ gpuiterator = 1
 
 window.specs.gpu().then(info => {
   if (info.controllers[0].vramDynamic === true) {
-    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB (Dynamic VRAM)`
+    if(info.controllers[0].vram === null){
+      gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} (Dynamic VRAM)`
+    } else {
+      gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB (Dynamic VRAM)`
+    }
+  }
+  else if(info.controllers[0].vram !== null){
+    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model}`
   } else {
-    gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB`
+  gpumain.innerText = `${info.controllers[0].vendor} ${info.controllers[0].model} ${info.controllers[0].vram} MB`
   }
   gputable.querySelector('.gpuvendor').innerText = `${info.controllers[0].vendor}`
   gputable.querySelector('.gpumodel').innerText = `${info.controllers[0].model}`
@@ -283,6 +282,28 @@ window.system.bios().then(info => {
   deleteRows()
 }).catch(err => {
   manufacturer.innerText = `Error: ${err.message}`
+})
+
+//Battery tab
+window.specs.battery().then(info => {
+  batterytable = document.getElementById('batterytable')
+  batterytable.querySelector('.battac').innerText = `${info.acConnected ? "Yes" : "No"}`
+  batterytable.querySelector('.battcharging').innerText = `${info.isCharging ? "Yes" : "No"}`
+  batterytable.querySelector('.battpercent').innerText = `${info.percent}%`
+  batterytable.querySelector('.battremaining').innerText = `${Math.floor(info.timeRemaining/60)}:${info.timeRemaining%60}`
+  batterytable.querySelector('.battvoltage').innerText = `${info.voltage} V`
+  batterytable.querySelector('.battcycles').innerText = `${info.cycleCount}`
+  batterytable.querySelector('.battdesigncap').innerText = `${info.designedCapacity} ${info.capacityUnit}`
+  batterytable.querySelector('.battcurrentcap').innerText = `${info.currentCapacity} ${info.capacityUnit}`
+  batterytable.querySelector('.batthealth').innerText = `${Math.floor((info.currentCapacity/info.designedCapacity)*100)}%`
+  batterytable.querySelector('.batttype').innerText = `${info.type}`
+  batterytable.querySelector('.battmodel').innerText = `${info.model}`
+  batterytable.querySelector('.battmfg').innerText = `${info.manufacturer}`
+  batterytable.querySelector('.battserial').innerText = `${info.serial}`
+  
+  deleteRows()
+}).catch(err => {
+  cpumain.innerText = `Error: ${err.message}`
 })
 
 //OS tab

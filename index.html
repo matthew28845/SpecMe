@@ -9,7 +9,7 @@
         http-equiv="X-Content-Security-Policy"
         content="default-src 'self'; script-src 'self'"
         />
-        <title>SpecMe 1.5.1</title>
+        <title>SpecMe 1.6</title>
         <link rel="stylesheet" href=index.css>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +24,7 @@
         <button class="tablinks" onclick="openTab(event, 'storagetab')">Storage</button>
         <button class="tablinks" onclick="openTab(event, 'graphicstab')">Graphics</button>
         <button class="tablinks" onclick="openTab(event, 'displaystab')">Displays</button>
+        <button class="tablinks" onclick="openTab(event, 'batterytab')">Battery</button>
         <button class="tablinks" onclick="openTab(event, 'systemtab')">System</button>
         <button class="tablinks" onclick="openTab(event, 'ostab')">OS</button>
         </div>
@@ -251,7 +252,65 @@
                 </tr>
                 </table>
             <p id="displayend"></p>
-        </div>   
+        </div>  
+        <div id="batterytab" class="tabcontent">
+            <h2>Battery</h2>
+            <table id="batterytable">
+                <tr>
+                    <th scope="row">AC Connected?</th>
+                    <td class="battac">Loading...</td>
+                </tr>
+                <tr>    
+                    <th scope="row">Charging?</th>
+                    <td class="battcharging">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Battery Percentage</th>
+                    <td class="battpercent">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Time Remaining</th>
+                    <td class="battremaining">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Voltage</th>
+                    <td class="battvoltage">Loading...</td>
+                </tr>                
+                <tr>
+                    <th scope="row">Cycles</th>
+                    <td class="battcycles">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Designed Capacity</th>
+                    <td class="battdesigncap">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Current Capacity</th>
+                    <td class="battcurrentcap">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Health</th>
+                    <td class="batthealth">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Battery Type</th>
+                    <td class="batttype">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Battery Model</th>
+                    <td class="battmodel">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Battery Manufacturer</th>
+                    <td class="battmfg">Loading...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Battery Serial</th>
+                    <td class="battserial">Loading...</td>
+                </tr>
+                </table>
+            <p id="batteryend"></p>
+        </div>       
         <div id="systemtab" class="tabcontent">
             <h2>System</h2>
             <div id="systemtable">
