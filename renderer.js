@@ -286,6 +286,11 @@ window.system.bios().then(info => {
 
 //Battery tab
 window.specs.battery().then(info => {
+  //Hide battery tab if no battery is present
+  if (info.hasBattery === false) {
+    document.getElementById('batterytabbtn').style.display = 'none'
+    return
+  }
   batterytable = document.getElementById('batterytable')
   batterytable.querySelector('.battac').innerText = `${info.acConnected ? "Yes" : "No"}`
   batterytable.querySelector('.battcharging').innerText = `${info.isCharging ? "Yes" : "No"}`

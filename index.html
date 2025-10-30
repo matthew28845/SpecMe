@@ -5,7 +5,7 @@
         <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self' 'unsafe-inline'"
+            content="default-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com"
         http-equiv="X-Content-Security-Policy"
         content="default-src 'self'; script-src 'self'"
         />
@@ -24,14 +24,14 @@
         <button class="tablinks" onclick="openTab(event, 'storagetab')">Storage</button>
         <button class="tablinks" onclick="openTab(event, 'graphicstab')">Graphics</button>
         <button class="tablinks" onclick="openTab(event, 'displaystab')">Displays</button>
-        <button class="tablinks" onclick="openTab(event, 'batterytab')">Battery</button>
+        <button class="tablinks" id='batterytabbtn' onclick="openTab(event, 'batterytab') ">Battery</button>
         <button class="tablinks" onclick="openTab(event, 'systemtab')">System</button>
         <button class="tablinks" onclick="openTab(event, 'ostab')">OS</button>
         </div>
 
         <!-- Tab content -->
         <div id="overviewtab" class="tabcontent">
-            <img src="./images/logo.png" id="mfglogo" alt="Mfg Logo" style="float: right; width: 200px; height: 200px;">
+            <img src="./images/logo.png" id="mfglogo" alt="Mfg Logo">
             <div id="computermodel">
                 <h2 id="mfgmain">SpecMe</h2>
                 <h2 id="versionmain"></h2>
