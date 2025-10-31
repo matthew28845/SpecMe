@@ -27,7 +27,9 @@ window.specs.cpu().then(info => {
 //Refreshes CPU temp and updates the field
 function refreshTemps() {
   window.specs.cputemp().then(info => {
-    cpumain.innerText = cputext + ` ${info.main} °C`
+    if (info.main !== null) {
+      cpumain.innerText = cputext + ` ${info.main} °C`
+    }
   }).catch(err => {
     cpumain.innerText = cputext + ` (Error: ${err.message})`
   })
@@ -295,7 +297,11 @@ window.specs.battery().then(info => {
   batterytable.querySelector('.battac').innerText = `${info.acConnected ? "Yes" : "No"}`
   batterytable.querySelector('.battcharging').innerText = `${info.isCharging ? "Yes" : "No"}`
   batterytable.querySelector('.battpercent').innerText = `${info.percent}%`
-  batterytable.querySelector('.battremaining').innerText = `${Math.floor(info.timeRemaining/60)}:${info.timeRemaining%60}`
+  if (info.timeRemaining%60 < 10) {
+    batterytable.querySelector('.battremaining').innerText = `${Math.floor(info.timeRemaining/60)}:0${info.timeRemaining%60}`
+  } else {
+    batterytable.querySelector('.battremaining').innerText = `${Math.floor(info.timeRemaining/60)}:${info.timeRemaining%60}`
+  }
   batterytable.querySelector('.battvoltage').innerText = `${info.voltage} V`
   batterytable.querySelector('.battcycles').innerText = `${info.cycleCount}`
   batterytable.querySelector('.battdesigncap').innerText = `${info.designedCapacity} ${info.capacityUnit}`
