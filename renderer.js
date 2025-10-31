@@ -163,7 +163,7 @@ window.specs.gpu().then(info => {
   gputable.querySelector('.gpumodel').innerText = `${info.controllers[0].model}`
   gputable.querySelector('.gpuvram').innerText = `${info.controllers[0].vram} MB`
   if (info.controllers[0].vramDynamic === true) {
-    gputable.querySelector('.gpuvram').innerText += `(Dynamic VRAM)`
+    gputable.querySelector('.gpuvram').innerText += ` (Dynamic VRAM)`
   }
   gputable.querySelector('.gpucores').innerText = `${info.controllers[0].gpuCores} cores`
   gputable.querySelector('.gpubus').innerText = `${info.controllers[0].bus}`
