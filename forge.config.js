@@ -1,5 +1,6 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const path = require('path');
 
 module.exports = {
   packagerConfig: {
@@ -62,7 +63,9 @@ module.exports = {
       name: '@electron-forge/maker-wix',
       config: {
         options: {
-          icon: 'images/logo.ico',
+          icon: path.resolve(__dirname, 'images', 'logo.ico'),
+          setupIcon: path.resolve(__dirname, 'images', 'logo.ico'),
+          appIconPath: path.resolve(__dirname, 'images', 'logo.ico'),
           ui: {
             chooseDirectory: true,
           },

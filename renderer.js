@@ -31,19 +31,18 @@ version.innerText = 'Loading...'
 let cputext = ''
 let tempIntervalId = null
 
-// Load all data in parallel using Promise.all
+// Progressive loading strategy for better performance on Windows:
+// Phase 1: Fast calls (CPU, Memory, OS, System) - show immediately
+// Phase 2: Medium calls (Memory Layout, Battery) - load after Phase 1
+// Phase 3: Slow calls (Disk, GPU, Baseboard, BIOS) - load after Phase 2
+
+// Phase 1: Load fast data first
 Promise.all([
   window.specs.cpu(),
   window.specs.mem(),
-  window.specs.memlayout(),
-  window.specs.disk(),
-  window.specs.gpu(),
-  window.system.system(),
-  window.system.baseboard(),
-  window.system.bios(),
   window.system.os(),
-  window.specs.battery()
-]).then(([cpuInfo, memInfo, memLayoutInfo, diskInfo, gpuInfo, systemInfo, baseboardInfo, biosInfo, osInfo, batteryInfo]) => {
+  window.system.system()
+]).then(([cpuInfo, memInfo, osInfo, systemInfo]) => {
   // CPU tab
   try {
     cpumain.innerText = `${cpuInfo.manufacturer} ${cpuInfo.brand} (${cpuInfo.cores} threads)`
@@ -69,9 +68,8 @@ Promise.all([
     cpumain.innerText = `Error: ${err.message}`
   }
 
-  // Memory tab
+  // Memory tab (basic info)
   try {
-    let memiterator = 1
     if (memInfo && memInfo.total) {
       if (memInfo.total % 1073741824 === 0) {
         memmain.innerText = ` ${Math.floor(memInfo.total/1073741824)} GB`
@@ -79,44 +77,137 @@ Promise.all([
         memmain.innerText = ` ${Math.floor(memInfo.total/1048576)} MB`
       }
     }
-    if (memLayoutInfo && memLayoutInfo[0]) {
-      memmain.innerText += ` ${memLayoutInfo[0].type || ''}`
-      memtable.querySelector('.memsize').innerText = `${Math.floor(memLayoutInfo[0].size/1048576)} MB`
-      memtable.querySelector('.memtype').innerText = `${memLayoutInfo[0].type}`
-      memtable.querySelector('.memclock').innerText = `${memLayoutInfo[0].clockSpeed} MHz`
-      memtable.querySelector('.memmfg').innerText = `${memLayoutInfo[0].manufacturer}`
-      memtable.querySelector('.memformfactor').innerText = `${memLayoutInfo[0].formFactor}`
-      memtable.querySelector('.mempart').innerText = `${memLayoutInfo[0].partNumber}`
-      memtable.querySelector('.memserial').innerText = `${memLayoutInfo[0].serialNumber}`
-      memtable.querySelector('.memvmin').innerText = `${memLayoutInfo[0].voltageMin} V`
-      memtable.querySelector('.memvmax').innerText = `${memLayoutInfo[0].voltageMax} V`
-      while (memLayoutInfo[memiterator] !== undefined) {
-        const clone = memtable.cloneNode(true)
-        clone.id = 'memtable ' + memiterator
-        const memnumber = document.createElement('h3')
-        document.getElementById('memend').appendChild(memnumber)
-        memnumber.innerText = `Bank ${memiterator}`
-        document.getElementById('memend').appendChild(clone)
-        clone.querySelector('.memsize').innerText = `${Math.floor(memLayoutInfo[memiterator].size/1048576)} MB`
-        clone.querySelector('.memtype').innerText = `${memLayoutInfo[memiterator].type}`
-        clone.querySelector('.memclock').innerText = `${memLayoutInfo[memiterator].clockSpeed} MHz`
-        clone.querySelector('.memmfg').innerText = `${memLayoutInfo[memiterator].manufacturer}`
-        clone.querySelector('.memformfactor').innerText = `${memLayoutInfo[memiterator].formFactor}`
-        clone.querySelector('.mempart').innerText = `${memLayoutInfo[memiterator].partNumber}`
-        clone.querySelector('.memserial').innerText = `${memLayoutInfo[memiterator].serialNumber}`
-        clone.querySelector('.memvmin').innerText = `${memLayoutInfo[memiterator].voltageMin} V`
-        clone.querySelector('.memvmax').innerText = `${memLayoutInfo[memiterator].voltageMax} V`
-        memiterator++
-      }
-    } else {
-      console.log('memLayoutInfo:', memLayoutInfo)
-    }
   } catch (err) {
     console.log('Memory error:', err)
     memmain.innerText = `Error: ${err.message}`
   }
 
-  // Disk tab
+  // OS tab
+  try {
+    osmain.innerText = `${osInfo.distro} ${osInfo.release} ${osInfo.codename}`
+    ostable.querySelector('.osplatform').innerText = `${osInfo.platform}`
+    ostable.querySelector('.osdistribution').innerText = `${osInfo.distro}`
+    ostable.querySelector('.osrelease').innerText = `${osInfo.release}`
+    ostable.querySelector('.osbuild').innerText = `${osInfo.build}`
+    ostable.querySelector('.oskernel').innerText = `${osInfo.kernel}`
+    ostable.querySelector('.osarch').innerText = `${osInfo.arch}`
+    ostable.querySelector('.osserial').innerText = `${osInfo.serial}`
+    ostable.querySelector('.oshostname').innerText = `${osInfo.hostname}`
+    ostable.querySelector('.osfqdn').innerText = `${osInfo.fqdn}`
+    ostable.querySelector('.osuefi').innerText = `${osInfo.uefi ? "Yes" : "No"}`
+  } catch (err) {
+    osmain.innerText = `Error: ${err.message}`
+  }
+
+  // System tab
+  try {
+    manufacturer.innerText = `${systemInfo.manufacturer} `
+    model.innerText = `${systemInfo.model}`
+    version.innerText = `${systemInfo.version}`
+    systemtable.querySelector('.systemmfg').innerText = `${systemInfo.manufacturer}`
+    systemtable.querySelector('.systemmodel').innerText = `${systemInfo.model}`
+    systemtable.querySelector('.systemname').innerText = `${systemInfo.version}`
+    systemtable.querySelector('.systemserial').innerText = `${systemInfo.serial}`
+    systemtable.querySelector('.systemuuid').innerText = `${systemInfo.uuid}`
+    systemtable.querySelector('.systemvm').innerText = `${systemInfo.virtual ? "Yes" : "No"}`
+    systemtable.querySelector('.systemformfactor').innerText = `${systemInfo.type}`
+  } catch (err) {
+    manufacturer.innerText = `Error: ${err.message}`
+  }
+
+  // Start temperature monitoring
+  refreshTemps()
+  if (tempIntervalId !== null) {
+    clearInterval(tempIntervalId)
+  }
+  tempIntervalId = setInterval(refreshTemps, 5000)
+
+  // Phase 2: Load medium-speed data
+  Promise.all([
+    window.specs.memlayout(),
+    window.specs.battery()
+  ]).then(([memLayoutInfo, batteryInfo]) => {
+    // Memory Layout (detailed)
+    try {
+      let memiterator = 1
+      if (memLayoutInfo && memLayoutInfo[0]) {
+        memmain.innerText += ` ${memLayoutInfo[0].type || ''}`
+        memtable.querySelector('.memsize').innerText = `${Math.floor(memLayoutInfo[0].size/1048576)} MB`
+        memtable.querySelector('.memtype').innerText = `${memLayoutInfo[0].type}`
+        memtable.querySelector('.memclock').innerText = `${memLayoutInfo[0].clockSpeed} MHz`
+        memtable.querySelector('.memmfg').innerText = `${memLayoutInfo[0].manufacturer}`
+        memtable.querySelector('.memformfactor').innerText = `${memLayoutInfo[0].formFactor}`
+        memtable.querySelector('.mempart').innerText = `${memLayoutInfo[0].partNumber}`
+        memtable.querySelector('.memserial').innerText = `${memLayoutInfo[0].serialNumber}`
+        memtable.querySelector('.memvmin').innerText = `${memLayoutInfo[0].voltageMin} V`
+        memtable.querySelector('.memvmax').innerText = `${memLayoutInfo[0].voltageMax} V`
+        while (memLayoutInfo[memiterator] !== undefined) {
+          const clone = memtable.cloneNode(true)
+          clone.id = 'memtable ' + memiterator
+          const memnumber = document.createElement('h3')
+          document.getElementById('memend').appendChild(memnumber)
+          memnumber.innerText = `Bank ${memiterator}`
+          document.getElementById('memend').appendChild(clone)
+          clone.querySelector('.memsize').innerText = `${Math.floor(memLayoutInfo[memiterator].size/1048576)} MB`
+          clone.querySelector('.memtype').innerText = `${memLayoutInfo[memiterator].type}`
+          clone.querySelector('.memclock').innerText = `${memLayoutInfo[memiterator].clockSpeed} MHz`
+          clone.querySelector('.memmfg').innerText = `${memLayoutInfo[memiterator].manufacturer}`
+          clone.querySelector('.memformfactor').innerText = `${memLayoutInfo[memiterator].formFactor}`
+          clone.querySelector('.mempart').innerText = `${memLayoutInfo[memiterator].partNumber}`
+          clone.querySelector('.memserial').innerText = `${memLayoutInfo[memiterator].serialNumber}`
+          clone.querySelector('.memvmin').innerText = `${memLayoutInfo[memiterator].voltageMin} V`
+          clone.querySelector('.memvmax').innerText = `${memLayoutInfo[memiterator].voltageMax} V`
+          memiterator++
+        }
+      }
+    } catch (err) {
+      console.log('Memory layout error:', err)
+    }
+
+    // Battery tab
+    try {
+      if (batteryInfo && batteryInfo.hasBattery === false) {
+        document.getElementById('batterytabbtn').style.display = 'none'
+      } else if (batteryInfo) {
+        const batterytable = document.getElementById('batterytable')
+        batterytable.querySelector('.battac').innerText = `${batteryInfo.acConnected ? "Yes" : "No"}`
+        batterytable.querySelector('.battcharging').innerText = `${batteryInfo.isCharging ? "Yes" : "No"}`
+        batterytable.querySelector('.battpercent').innerText = `${batteryInfo.percent}%`
+        if (batteryInfo.timeRemaining%60 < 10) {
+          batterytable.querySelector('.battremaining').innerText = `${Math.floor(batteryInfo.timeRemaining/60)}:0${batteryInfo.timeRemaining%60}`
+        } else {
+          batterytable.querySelector('.battremaining').innerText = `${Math.floor(batteryInfo.timeRemaining/60)}:${batteryInfo.timeRemaining%60}`
+        }
+        batterytable.querySelector('.battvoltage').innerText = `${batteryInfo.voltage} V`
+        batterytable.querySelector('.battcycles').innerText = `${batteryInfo.cycleCount}`
+        batterytable.querySelector('.battdesigncap').innerText = `${batteryInfo.designedCapacity} ${batteryInfo.capacityUnit}`
+        batterytable.querySelector('.battcurrentcap').innerText = `${batteryInfo.currentCapacity} ${batteryInfo.capacityUnit}`
+        batterytable.querySelector('.battmaxcap').innerText = `${batteryInfo.maxCapacity} ${batteryInfo.capacityUnit}`
+        if (batteryInfo.designedCapacity && batteryInfo.designedCapacity > 0) {
+          batterytable.querySelector('.batthealth').innerText = `${Math.floor((batteryInfo.maxCapacity/batteryInfo.designedCapacity)*100)}%`
+        } else {
+          batterytable.querySelector('.batthealth').innerText = 'N/A'
+        }
+        batterytable.querySelector('.batttype').innerText = `${batteryInfo.type}`
+        batterytable.querySelector('.battmodel').innerText = `${batteryInfo.model}`
+        batterytable.querySelector('.battmfg').innerText = `${batteryInfo.manufacturer}`
+        batterytable.querySelector('.battserial').innerText = `${batteryInfo.serial}`
+      }
+    } catch (err) {
+      console.error('Battery info error:', err)
+    }
+  }).catch(err => {
+    console.error('Error loading phase 2 data:', err)
+  })
+
+  // Phase 3: Load slow data (these are the slowest on Windows)
+  Promise.all([
+    window.specs.disk(),
+    window.specs.gpu(),
+    window.system.baseboard(),
+    window.system.bios()
+  ]).then(([diskInfo, gpuInfo, baseboardInfo, biosInfo]) => {
+    // Disk tab
   try {
     let diskiterator = 1
     if (diskInfo && diskInfo[0]) {
@@ -261,106 +352,38 @@ Promise.all([
     gpumain.innerText = `Error: ${err.message}`
   }
 
-  // System tab
-  try {
-    manufacturer.innerText = `${systemInfo.manufacturer} `
-    model.innerText = `${systemInfo.model}`
-    version.innerText = `${systemInfo.version}`
-    systemtable.querySelector('.systemmfg').innerText = `${systemInfo.manufacturer}`
-    systemtable.querySelector('.systemmodel').innerText = `${systemInfo.model}`
-    systemtable.querySelector('.systemname').innerText = `${systemInfo.version}`
-    systemtable.querySelector('.systemserial').innerText = `${systemInfo.serial}`
-    systemtable.querySelector('.systemuuid').innerText = `${systemInfo.uuid}`
-    systemtable.querySelector('.systemvm').innerText = `${systemInfo.virtual ? "Yes" : "No"}`
-    systemtable.querySelector('.systemformfactor').innerText = `${systemInfo.type}`
-  } catch (err) {
-    manufacturer.innerText = `Error: ${err.message}`
-  }
-
-  // Baseboard tab
-  try {
-    boardtable.querySelector('.boardmfg').innerText = `${baseboardInfo.manufacturer}`
-    boardtable.querySelector('.boardmodel').innerText = `${baseboardInfo.model}`
-    boardtable.querySelector('.boardserial').innerText = `${baseboardInfo.serial}`
-    boardtable.querySelector('.boardasset').innerText = `${baseboardInfo.assetTag}`
-    boardtable.querySelector('.boardmemslots').innerText = `${baseboardInfo.memSlots}`
-    boardtable.querySelector('.boardmaxmem').innerText = `${Math.floor(baseboardInfo.memMax/1073741824)} GB`
-  } catch (err) {
-    manufacturer.innerText = `Error: ${err.message}`
-  }
-
-  // BIOS tab
-  try {
-    biostable.querySelector('.biosvendor').innerText = `${biosInfo.vendor}`
-    biostable.querySelector('.biosversion').innerText = `${biosInfo.version}`
-    biostable.querySelector('.biosdate').innerText = `${biosInfo.releaseDate}`
-    biostable.querySelector('.biosrev').innerText = `${biosInfo.revision}`
-    biostable.querySelector('.biosserial').innerText = `${biosInfo.serial}`
-    biostable.querySelector('.bioslanguage').innerText = `${biosInfo.language}`
-    biostable.querySelector('.biosfeatures').innerText = `${biosInfo.features}`
-  } catch (err) {
-    manufacturer.innerText = `Error: ${err.message}`
-  }
-
-  // OS tab
-  try {
-    osmain.innerText = `${osInfo.distro} ${osInfo.release} ${osInfo.codename}`
-    ostable.querySelector('.osplatform').innerText = `${osInfo.platform}`
-    ostable.querySelector('.osdistribution').innerText = `${osInfo.distro}`
-    ostable.querySelector('.osrelease').innerText = `${osInfo.release}`
-    ostable.querySelector('.osbuild').innerText = `${osInfo.build}`
-    ostable.querySelector('.oskernel').innerText = `${osInfo.kernel}`
-    ostable.querySelector('.osarch').innerText = `${osInfo.arch}`
-    ostable.querySelector('.osserial').innerText = `${osInfo.serial}`
-    ostable.querySelector('.oshostname').innerText = `${osInfo.hostname}`
-    ostable.querySelector('.osfqdn').innerText = `${osInfo.fqdn}`
-    ostable.querySelector('.osuefi').innerText = `${osInfo.uefi ? "Yes" : "No"}`
-  } catch (err) {
-    osmain.innerText = `Error: ${err.message}`
-  }
-
-  // Battery tab
-  try {
-    if (batteryInfo && batteryInfo.hasBattery === false) {
-      document.getElementById('batterytabbtn').style.display = 'none'
-    } else if (batteryInfo) {
-      const batterytable = document.getElementById('batterytable')
-      batterytable.querySelector('.battac').innerText = `${batteryInfo.acConnected ? "Yes" : "No"}`
-      batterytable.querySelector('.battcharging').innerText = `${batteryInfo.isCharging ? "Yes" : "No"}`
-      batterytable.querySelector('.battpercent').innerText = `${batteryInfo.percent}%`
-      if (batteryInfo.timeRemaining%60 < 10) {
-        batterytable.querySelector('.battremaining').innerText = `${Math.floor(batteryInfo.timeRemaining/60)}:0${batteryInfo.timeRemaining%60}`
-      } else {
-        batterytable.querySelector('.battremaining').innerText = `${Math.floor(batteryInfo.timeRemaining/60)}:${batteryInfo.timeRemaining%60}`
-      }
-      batterytable.querySelector('.battvoltage').innerText = `${batteryInfo.voltage} V`
-      batterytable.querySelector('.battcycles').innerText = `${batteryInfo.cycleCount}`
-      batterytable.querySelector('.battdesigncap').innerText = `${batteryInfo.designedCapacity} ${batteryInfo.capacityUnit}`
-      batterytable.querySelector('.battcurrentcap').innerText = `${batteryInfo.currentCapacity} ${batteryInfo.capacityUnit}`
-      batterytable.querySelector('.battmaxcap').innerText = `${batteryInfo.maxCapacity} ${batteryInfo.capacityUnit}`
-      if (batteryInfo.designedCapacity && batteryInfo.designedCapacity > 0) {
-        batterytable.querySelector('.batthealth').innerText = `${Math.floor((batteryInfo.maxCapacity/batteryInfo.designedCapacity)*100)}%`
-      } else {
-        batterytable.querySelector('.batthealth').innerText = 'N/A'
-      }
-      batterytable.querySelector('.batttype').innerText = `${batteryInfo.type}`
-      batterytable.querySelector('.battmodel').innerText = `${batteryInfo.model}`
-      batterytable.querySelector('.battmfg').innerText = `${batteryInfo.manufacturer}`
-      batterytable.querySelector('.battserial').innerText = `${batteryInfo.serial}`
+    // Baseboard tab
+    try {
+      boardtable.querySelector('.boardmfg').innerText = `${baseboardInfo.manufacturer}`
+      boardtable.querySelector('.boardmodel').innerText = `${baseboardInfo.model}`
+      boardtable.querySelector('.boardserial').innerText = `${baseboardInfo.serial}`
+      boardtable.querySelector('.boardasset').innerText = `${baseboardInfo.assetTag}`
+      boardtable.querySelector('.boardmemslots').innerText = `${baseboardInfo.memSlots}`
+      boardtable.querySelector('.boardmaxmem').innerText = `${Math.floor(baseboardInfo.memMax/1073741824)} GB`
+    } catch (err) {
+      console.error('Baseboard error:', err)
     }
-  } catch (err) {
-    console.error('Battery info error:', err)
-  }
 
-  deleteRows()
-  refreshTemps()
-  // Clear any existing interval before creating a new one
-  if (tempIntervalId !== null) {
-    clearInterval(tempIntervalId)
-  }
-  tempIntervalId = setInterval(refreshTemps, 5000)
+    // BIOS tab
+    try {
+      biostable.querySelector('.biosvendor').innerText = `${biosInfo.vendor}`
+      biostable.querySelector('.biosversion').innerText = `${biosInfo.version}`
+      biostable.querySelector('.biosdate').innerText = `${biosInfo.releaseDate}`
+      biostable.querySelector('.biosrev').innerText = `${biosInfo.revision}`
+      biostable.querySelector('.biosserial').innerText = `${biosInfo.serial}`
+      biostable.querySelector('.bioslanguage').innerText = `${biosInfo.language}`
+      biostable.querySelector('.biosfeatures').innerText = `${biosInfo.features}`
+    } catch (err) {
+      console.error('BIOS error:', err)
+    }
+
+    // Clean up empty rows after all data is loaded
+    deleteRows()
+  }).catch(err => {
+    console.error('Error loading phase 3 data:', err)
+  })
 }).catch(err => {
-  console.error('Error loading system info:', err)
+  console.error('Error loading phase 1 data:', err)
   cpumain.innerText = `Error: ${err.message}`
 })
 
