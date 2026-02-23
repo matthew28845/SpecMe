@@ -38,7 +38,7 @@
   border: 5px;
   border-radius: 5px black;
   border-top: none;
-} 
+}
 
 .tabcontent {
   animation: fadeEffect 0.5s; /* Fading effect takes 1 second */
@@ -63,6 +63,10 @@ body {
 #computermodel h3 {
   margin: 0;
   font-style: italic;
+}
+
+#cpumain, #cputempelement {
+  display: inline;
 }
 
 @media (prefers-color-scheme: dark) {

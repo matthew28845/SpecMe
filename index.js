@@ -3,6 +3,8 @@ const path = require('node:path')
 
 const isMac = process.platform === 'darwin'
 
+if(require('electron-squirrel-startup')) return;
+
 const template = [
   // { role: 'appMenu' }
   ...(isMac
@@ -95,7 +97,7 @@ const template = [
     {
     label: 'Theme',
     submenu: [
-      { label: 'System', 
+      { label: 'System',
         click: async () => {
             nativeTheme.themeSource = 'system'
         }

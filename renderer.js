@@ -3,6 +3,7 @@
 // Get all DOM elements upfront
 const cputable = document.getElementById('cputable')
 const cpumain = document.getElementById('cpumain')
+const cputempelement = document.getElementById('cputempelement')
 const memtable = document.getElementById('memtable')
 const memmain = document.getElementById('memmain')
 const disktable = document.getElementById('disktable')
@@ -45,7 +46,9 @@ Promise.all([
 ]).then(([cpuInfo, memInfo, osInfo, systemInfo]) => {
   // CPU tab
   try {
-    cpumain.innerText = `${cpuInfo.manufacturer} ${cpuInfo.brand} (${cpuInfo.cores} threads)`
+    //fix display issue for newer Intel CPUs
+    brandstring = cpuInfo.brand.replace(/^Gen Intel® /, '')
+    cpumain.innerText = `${cpuInfo.manufacturer} ${brandstring} (${cpuInfo.cores} threads)`
     cputext = cpumain.innerText
     cputable.querySelector('.cpumanufacturer').innerText = `${cpuInfo.manufacturer}`
     cputable.querySelector('.cpumodel').innerText = `${cpuInfo.brand}`
@@ -71,8 +74,8 @@ Promise.all([
   // Memory tab (basic info)
   try {
     if (memInfo && memInfo.total) {
-      if (memInfo.total % 1073741824 === 0) {
-        memmain.innerText = ` ${Math.floor(memInfo.total/1073741824)} GB`
+      if (memInfo.total > 1048576) {
+        memmain.innerText = ` ${(memInfo.total/1073741824).toFixed(1)} GB`
       } else {
         memmain.innerText = ` ${Math.floor(memInfo.total/1048576)} MB`
       }
@@ -256,17 +259,22 @@ Promise.all([
   try {
     let gpuiterator = 1
     if (gpuInfo && gpuInfo.controllers && gpuInfo.controllers[0]) {
+      //make it so that main page doesn't display "NVIDIA NVIDIA" or "AMD AMD"
+      vendorstring = gpuInfo.controllers[0].vendor
+      if (!(vendorstring.includes('Intel'))){
+        vendorstring = ''
+      }
       if (gpuInfo.controllers[0].vramDynamic === true) {
         if(gpuInfo.controllers[0].vram === null){
-          gpumain.innerText = `${gpuInfo.controllers[0].vendor} ${gpuInfo.controllers[0].model} (Dynamic VRAM)`
+          gpumain.innerText = `${vendorstring} ${gpuInfo.controllers[0].model} (Dynamic VRAM)`
         } else {
-          gpumain.innerText = `${gpuInfo.controllers[0].vendor} ${gpuInfo.controllers[0].model} ${gpuInfo.controllers[0].vram} MB (Dynamic VRAM)`
+          gpumain.innerText = `${vendorstring} ${gpuInfo.controllers[0].model} (${gpuInfo.controllers[0].vram} MB, Dynamic VRAM)`
         }
       }
       else if(gpuInfo.controllers[0].vram !== null){
-        gpumain.innerText = `${gpuInfo.controllers[0].vendor} ${gpuInfo.controllers[0].model} ${gpuInfo.controllers[0].vram} MB`
+        gpumain.innerText = `${vendorstring} ${gpuInfo.controllers[0].model} (${gpuInfo.controllers[0].vram} MB)`
       } else {
-        gpumain.innerText = `${gpuInfo.controllers[0].vendor} ${gpuInfo.controllers[0].model}`
+        gpumain.innerText = `${vendorstring} ${gpuInfo.controllers[0].model}`
       }
       gputable.querySelector('.gpuvendor').innerText = `${gpuInfo.controllers[0].vendor}`
       gputable.querySelector('.gpumodel').innerText = `${gpuInfo.controllers[0].model}`
@@ -297,12 +305,12 @@ Promise.all([
         clone.querySelector('.gpubus').innerText = `${gpuInfo.controllers[gpuiterator].bus}`
         if (gpuInfo.controllers[gpuiterator].vramDynamic === true) {
           gpumain.innerText += `
-    ${gpuInfo.controllers[gpuiterator].vendor} ${gpuInfo.controllers[gpuiterator].model} ${gpuInfo.controllers[gpuiterator].vram} MB (Dynamic VRAM)`
+    ${gpuInfo.controllers[gpuiterator].vendor} ${gpuInfo.controllers[gpuiterator].model} (${gpuInfo.controllers[gpuiterator].vram} MB, Dynamic VRAM)`
         } else {
         gpumain.innerText += `
-    ${gpuInfo.controllers[gpuiterator].vendor} ${gpuInfo.controllers[gpuiterator].model} ${gpuInfo.controllers[gpuiterator].vram} MB`
+    ${gpuInfo.controllers[gpuiterator].vendor} ${gpuInfo.controllers[gpuiterator].model} (${gpuInfo.controllers[gpuiterator].vram} MB)`
         }
-        gpuiterator++    
+        gpuiterator++
       }
     } else {
       gpumain.innerText = 'No GPU information available'
@@ -391,7 +399,15 @@ Promise.all([
 function refreshTemps() {
   window.specs.cputemp().then(info => {
     if (info && info.main !== null && info.main !== undefined) {
-      cpumain.innerText = cputext + ` ${info.main} °C`
+      cputempelement.innerText = ` ${info.main} °C`
+      //color
+      if (info.main > 85) {
+        cputempelement.style.color = 'red'
+      } else if (info.main > 70) {
+        cputempelement.style.color = 'orange'
+      } else {
+        cputempelement.style.color = 'green'
+      }
     }
   }).catch(err => {
     cpumain.innerText = cputext + ` (Error: ${err.message})`
