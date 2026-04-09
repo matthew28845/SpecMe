@@ -3,7 +3,9 @@ const path = require('node:path')
 
 const isMac = process.platform === 'darwin'
 
-if(require('electron-squirrel-startup')) return;
+if (process.platform == 'win32') {
+  if (require('electron-squirrel-startup')) return;
+}
 
 const template = [
   // { role: 'appMenu' }
